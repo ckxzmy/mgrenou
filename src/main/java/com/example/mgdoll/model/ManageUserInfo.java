@@ -1,6 +1,5 @@
 package com.example.mgdoll.model;
 
-import java.beans.Transient;
 import java.util.Date;
 
 public class ManageUserInfo {
