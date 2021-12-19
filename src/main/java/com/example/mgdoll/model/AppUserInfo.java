@@ -1,9 +1,8 @@
 package com.example.mgdoll.model;
 
-import java.beans.Transient;
 import java.util.Date;
 
-public class ManageUserInfo {
+public class AppUserInfo {
     private Integer userId;
 
     private String userName;
@@ -19,16 +18,6 @@ public class ManageUserInfo {
     private Integer insertBy;
 
     private Date insertTime;
-
-    private String noteValue;
-
-    public String getNoteValue() {
-        return noteValue;
-    }
-
-    public void setNoteValue(String noteValue) {
-        this.noteValue = noteValue;
-    }
 
     public Integer getUserId() {
         return userId;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.MgSuitMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.MgSuit">
+    <id column="suit_id" jdbcType="INTEGER" property="suitId" />
+    <result column="suit_name" jdbcType="VARCHAR" property="suitName" />
+    <result column="suit_type" jdbcType="INTEGER" property="suitType" />
+    <result column="sale_type" jdbcType="INTEGER" property="saleType" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mg_suit
+    where suit_id = #{suitId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgSuit">
+    insert into mg_suit (suit_id, suit_name, suit_type, 
+      sale_type, price, owner_id, 
+      insert_time, insert_by)
+    values (#{suitId,jdbcType=INTEGER}, #{suitName,jdbcType=VARCHAR}, #{suitType,jdbcType=INTEGER}, 
+      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{ownerId,jdbcType=INTEGER}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgSuit">
+    update mg_suit
+    set suit_name = #{suitName,jdbcType=VARCHAR},
+      suit_type = #{suitType,jdbcType=INTEGER},
+      sale_type = #{saleType,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=INTEGER}
+    where suit_id = #{suitId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select suit_id, suit_name, suit_type, sale_type, price, owner_id, insert_time, insert_by
+    from mg_suit
+    where suit_id = #{suitId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select suit_id, suit_name, suit_type, sale_type, price, owner_id, insert_time, insert_by
+    from mg_suit
+  </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.MgNoteInfoMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.MgNoteInfo">
+    <id column="note_id" jdbcType="INTEGER" property="noteId" />
+    <result column="note_value" jdbcType="VARCHAR" property="noteValue" />
+    <result column="user_mobile" jdbcType="VARCHAR" property="userMobile" />
+    <result column="send_status" jdbcType="VARCHAR" property="sendStatus" />
+    <result column="res_contents" jdbcType="VARCHAR" property="resContents" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mg_note_info
+    where note_id = #{noteId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgNoteInfo">
+    insert into mg_note_info (note_id, note_value, user_mobile, 
+      send_status, res_contents, insert_time
+      )
+    values (#{noteId,jdbcType=INTEGER}, #{noteValue,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, 
+      #{sendStatus,jdbcType=VARCHAR}, #{resContents,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgNoteInfo">
+    update mg_note_info
+    set note_value = #{noteValue,jdbcType=VARCHAR},
+      user_mobile = #{userMobile,jdbcType=VARCHAR},
+      send_status = #{sendStatus,jdbcType=VARCHAR},
+      res_contents = #{resContents,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
+    where note_id = #{noteId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select note_id, note_value, user_mobile, send_status, res_contents, insert_time
+    from mg_note_info
+    where note_id = #{noteId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select note_id, note_value, user_mobile, send_status, res_contents, insert_time
+    from mg_note_info
+  </select>
+</mapper>

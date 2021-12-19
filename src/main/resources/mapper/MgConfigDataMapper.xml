@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.MgConfigDataMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.MgConfigData">
+    <id column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="config_name" jdbcType="VARCHAR" property="configName" />
+    <result column="config_value" jdbcType="VARCHAR" property="configValue" />
+    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mg_config_data
+    where config_id = #{configId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgConfigData">
+    insert into mg_config_data (config_id, config_name, config_value, 
+      insert_by, insert_time)
+    values (#{configId,jdbcType=INTEGER}, #{configName,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR}, 
+      #{insertBy,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgConfigData">
+    update mg_config_data
+    set config_name = #{configName,jdbcType=VARCHAR},
+      config_value = #{configValue,jdbcType=VARCHAR},
+      insert_by = #{insertBy,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
+    where config_id = #{configId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select config_id, config_name, config_value, insert_by, insert_time
+    from mg_config_data
+    where config_id = #{configId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select config_id, config_name, config_value, insert_by, insert_time
+    from mg_config_data
+  </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.MgPartMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.MgPart">
+    <id column="part_id" jdbcType="INTEGER" property="partId" />
+    <result column="part_name" jdbcType="VARCHAR" property="partName" />
+    <result column="part_type" jdbcType="VARCHAR" property="partType" />
+    <result column="doll_id" jdbcType="INTEGER" property="dollId" />
+    <result column="color_group_id" jdbcType="INTEGER" property="colorGroupId" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mg_part
+    where part_id = #{partId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgPart">
+    insert into mg_part (part_id, part_name, part_type, 
+      doll_id, color_group_id, insert_time, 
+      insert_by)
+    values (#{partId,jdbcType=INTEGER}, #{partName,jdbcType=VARCHAR}, #{partType,jdbcType=VARCHAR}, 
+      #{dollId,jdbcType=INTEGER}, #{colorGroupId,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{insertBy,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgPart">
+    update mg_part
+    set part_name = #{partName,jdbcType=VARCHAR},
+      part_type = #{partType,jdbcType=VARCHAR},
+      doll_id = #{dollId,jdbcType=INTEGER},
+      color_group_id = #{colorGroupId,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=INTEGER}
+    where part_id = #{partId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select part_id, part_name, part_type, doll_id, color_group_id, insert_time, insert_by
+    from mg_part
+    where part_id = #{partId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select part_id, part_name, part_type, doll_id, color_group_id, insert_time, insert_by
+    from mg_part
+  </select>
+</mapper>
