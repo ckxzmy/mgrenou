@@ -2,6 +2,7 @@ package com.example.mgdoll.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class MgCategory {
     private Integer categoryId;
@@ -9,8 +10,10 @@ public class MgCategory {
     private String categoryName;
 
     private Integer categoryType;
+    private String categoryTypeString;
 
     private Integer saleType;
+    private String saleTypeString;
 
     private BigDecimal price;
 
@@ -25,6 +28,16 @@ public class MgCategory {
     private Date insertTime;
 
     private Integer insertBy;
+
+    private List<MgMaterial> materialList;
+
+    public List<MgMaterial> getMaterialList() {
+        return materialList;
+    }
+
+    public void setMaterialList(List<MgMaterial> materialList) {
+        this.materialList = materialList;
+    }
 
     public Integer getCategoryId() {
         return categoryId;
@@ -113,4 +126,21 @@ public class MgCategory {
     public void setInsertBy(Integer insertBy) {
         this.insertBy = insertBy;
     }
+
+    public String getCategoryTypeString() {
+        return categoryTypeString;
+    }
+
+    public void setCategoryTypeString(String categoryTypeString) {
+        this.categoryTypeString = categoryTypeString;
+    }
+
+    public String getSaleTypeString() {
+        return saleTypeString;
+    }
+
+    public void setSaleTypeString(String saleTypeString) {
+        this.saleTypeString = saleTypeString;
+    }
+
 }

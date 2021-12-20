@@ -1,6 +1,7 @@
 package com.example.mgdoll.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class MgPart {
     private Integer partId;
@@ -16,6 +17,25 @@ public class MgPart {
     private Date insertTime;
 
     private Integer insertBy;
+
+    private List<LayerModel> layerList;
+    private List<MgCategory> categoryList;
+
+    public List<LayerModel> getLayerList() {
+        return layerList;
+    }
+
+    public void setLayerList(List<LayerModel> layerList) {
+        this.layerList = layerList;
+    }
+
+    public List<MgCategory> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<MgCategory> categoryList) {
+        this.categoryList = categoryList;
+    }
 
     public Integer getPartId() {
         return partId;

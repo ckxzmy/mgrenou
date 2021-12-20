@@ -11,6 +11,8 @@ public class MgMaterial {
 
     private Integer categoryId;
 
+    private Integer colorId;
+
     private Date insertTime;
 
     private Integer insertBy;
@@ -45,6 +47,14 @@ public class MgMaterial {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Integer getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(Integer colorId) {
+        this.colorId = colorId;
     }
 
     public Date getInsertTime() {

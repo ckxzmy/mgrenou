@@ -9,8 +9,10 @@ public class MgColor {
     private String colorName;
 
     private Integer colorType;
+    private String colorTypeString;
 
     private Integer saleType;
+    private String saleTypeString;
 
     private BigDecimal price;
 
@@ -82,5 +84,21 @@ public class MgColor {
 
     public void setInsertBy(Integer insertBy) {
         this.insertBy = insertBy;
+    }
+
+    public String getColorTypeString() {
+        return colorTypeString;
+    }
+
+    public void setColorTypeString(String colorTypeString) {
+        this.colorTypeString = colorTypeString;
+    }
+
+    public String getSaleTypeString() {
+        return saleTypeString;
+    }
+
+    public void setSaleTypeString(String saleTypeString) {
+        this.saleTypeString = saleTypeString;
     }
 }

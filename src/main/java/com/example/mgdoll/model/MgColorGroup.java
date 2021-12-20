@@ -1,17 +1,26 @@
 package com.example.mgdoll.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class MgColorGroup {
     private Integer groupId;
 
     private String groupName;
 
-    private Integer partId;
-
     private Date insertTime;
 
     private Integer insertBy;
+
+    private List<MgColor> colorArray;
+
+    public List<MgColor> getColorArray() {
+        return colorArray;
+    }
+
+    public void setColorArray(List<MgColor> colorArray) {
+        this.colorArray = colorArray;
+    }
 
     public Integer getGroupId() {
         return groupId;
@@ -27,14 +36,6 @@ public class MgColorGroup {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName == null ? null : groupName.trim();
-    }
-
-    public Integer getPartId() {
-        return partId;
-    }
-
-    public void setPartId(Integer partId) {
-        this.partId = partId;
     }
 
     public Date getInsertTime() {
