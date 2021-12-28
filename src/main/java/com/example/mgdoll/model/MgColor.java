@@ -16,6 +16,8 @@ public class MgColor {
 
     private BigDecimal price;
 
+    private Integer groupId;
+
     private Integer ownerId;
 
     private Date insertTime;
@@ -60,6 +62,14 @@ public class MgColor {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public Integer getOwnerId() {

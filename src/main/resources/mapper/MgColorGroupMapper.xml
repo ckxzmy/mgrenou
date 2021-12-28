@@ -11,11 +11,12 @@
     delete from mg_color_group
     where group_id = #{groupId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgColorGroup">
-    insert into mg_color_group (group_id, group_name, insert_time, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgColorGroup" useGeneratedKeys="true" keyProperty="groupId">
+    insert into mg_color_group (group_name, insert_time,
       insert_by)
-    values (#{groupId,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+    values (#{groupName,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP},
       #{insertBy,jdbcType=INTEGER})
+
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgColorGroup">
     update mg_color_group

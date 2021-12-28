@@ -6,6 +6,7 @@
     <result column="color_name" jdbcType="VARCHAR" property="colorName" />
     <result column="color_type" jdbcType="INTEGER" property="colorType" />
     <result column="sale_type" jdbcType="INTEGER" property="saleType" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
@@ -17,10 +18,10 @@
   </delete>
   <insert id="insert" parameterType="com.example.mgdoll.model.MgColor">
     insert into mg_color (color_id, color_name, color_type, 
-      sale_type, price, owner_id, 
+      sale_type, price, group_id, owner_id,
       insert_time, insert_by)
     values (#{colorId,jdbcType=INTEGER}, #{colorName,jdbcType=VARCHAR}, #{colorType,jdbcType=INTEGER}, 
-      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{ownerId,jdbcType=INTEGER}, 
+      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{groupId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER},
       #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgColor">
@@ -29,19 +30,20 @@
       color_type = #{colorType,jdbcType=INTEGER},
       sale_type = #{saleType,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
+      group_id = #{groupId,jdbcType=INTEGER},
       owner_id = #{ownerId,jdbcType=INTEGER},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
       insert_by = #{insertBy,jdbcType=INTEGER}
     where color_id = #{colorId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select color_id, color_name, color_type, sale_type, price, owner_id, insert_time, 
+    select color_id, color_name, color_type, sale_type, price,group_id, owner_id, insert_time,
     insert_by
     from mg_color
     where color_id = #{colorId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select color_id, color_name, color_type, sale_type, price, owner_id, insert_time, 
+    select color_id, color_name, color_type, sale_type, price,group_id, owner_id, insert_time,
     insert_by
     from mg_color
   </select>
