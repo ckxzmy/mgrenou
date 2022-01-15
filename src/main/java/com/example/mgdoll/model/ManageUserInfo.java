@@ -5,8 +5,6 @@ import java.util.Date;
 public class ManageUserInfo {
     private Integer userId;
 
-    private String userName;
-
     private String userMobile;
 
     private String userPassword;
@@ -19,15 +17,7 @@ public class ManageUserInfo {
 
     private Date insertTime;
 
-    private String noteValue;
-
-    public String getNoteValue() {
-        return noteValue;
-    }
-
-    public void setNoteValue(String noteValue) {
-        this.noteValue = noteValue;
-    }
+    private String token;
 
     public Integer getUserId() {
         return userId;
@@ -35,14 +25,6 @@ public class ManageUserInfo {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getUserMobile() {
@@ -91,5 +73,13 @@ public class ManageUserInfo {
 
     public void setInsertTime(Date insertTime) {
         this.insertTime = insertTime;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

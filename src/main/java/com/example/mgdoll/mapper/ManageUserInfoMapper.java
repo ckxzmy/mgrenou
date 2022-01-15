@@ -2,7 +2,6 @@ package com.example.mgdoll.mapper;
 
 import com.example.mgdoll.model.ManageUserInfo;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
