@@ -16,4 +16,8 @@ public interface AppUserInfoMapper {
     List<AppUserInfo> selectAll();
 
     int updateByPrimaryKey(AppUserInfo record);
+
+    AppUserInfo selectByInfo(AppUserInfo userInfo);
+
+    int selectExistUserByMobile(AppUserInfo userInfo);
 }

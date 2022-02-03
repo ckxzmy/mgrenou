@@ -3,9 +3,8 @@ package com.example.mgdoll.controller;
 import com.example.mgdoll.conf.ApiResponseEnum;
 import com.example.mgdoll.conf.NotCheckTokenAnn;
 import com.example.mgdoll.model.ApiResponse;
-import com.example.mgdoll.model.ManageUserInfo;
-import com.example.mgdoll.model.ResContent;
-import com.example.mgdoll.service.ManageUserInfoService;
+import com.example.mgdoll.model.AppUserInfo;
+import com.example.mgdoll.service.AppUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
@@ -16,30 +15,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.Date;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/manageUser")
-public class ManageUserController {
-
-    private static Logger logger = LoggerFactory.getLogger(ManageUserController.class);
+@RequestMapping("/appUser")
+public class AppUserController {
+    private static Logger logger = LoggerFactory.getLogger(AppUserController.class);
     //验证码超过30分钟失效
     private static final int DIFF_DATE = 30*60*1000;
 
     @Autowired
-    private ManageUserInfoService manageUserInfoService;
+    private AppUserInfoService appUserInfoService;
 
     @Autowired
     private MgNoteService mgNoteService;
 
     @PostMapping("/login")
     @ResponseBody
-    public ApiResponse login(@RequestBody ManageUserInfo userInfo) throws UnsupportedEncodingException {
+    public ApiResponse login(@RequestBody AppUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
             Boolean codeFlag = false;
@@ -54,7 +48,7 @@ public class ManageUserController {
                 }
             }else apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
             if(codeFlag){
-                ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
+                AppUserInfo existUserInfo = appUserInfoService.loginByInfo(userInfo);
                 if(existUserInfo != null){
                     String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
                     existUserInfo.setToken(token);
@@ -72,16 +66,16 @@ public class ManageUserController {
     @PostMapping("/register")
     @NotCheckTokenAnn
     @ResponseBody
-    public ApiResponse register(@RequestBody ManageUserInfo userInfo){
+    public ApiResponse register(@RequestBody AppUserInfo userInfo){
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null){
-            Integer existNum = manageUserInfoService.selectExistUserByMobile(userInfo);
+            Integer existNum = appUserInfoService.selectExistUserByMobile(userInfo);
             if(existNum >0){
                 apiResponse = ApiResponseUtil.getApiResponse(-1,"This mobile is exist!");
             }else {
                 userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
                 userInfo.setInsertTime(new Date());
-                manageUserInfoService.insert(userInfo);
+                appUserInfoService.insert(userInfo);
                 apiResponse = ApiResponseUtil.getApiResponse(userInfo);
                 logger.info("注册成功");
             }

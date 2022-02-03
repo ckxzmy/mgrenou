@@ -49,7 +49,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             //token不存在
             if (null != token) {
                 //验证token是否正确
-                String userId = System.getProperty("manage.id");
+                String userId = System.getProperty("user.id");
                 if(StringUtils.isEmpty(userId)){
                     apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SESSION_USER_ERROR);
                     responseMessage(response,response.getWriter(),apiResponse);

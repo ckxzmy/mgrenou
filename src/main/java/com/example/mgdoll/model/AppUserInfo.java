@@ -17,6 +17,10 @@ public class AppUserInfo {
 
     private Date insertTime;
 
+    private String token;
+
+    private String authCode;
+
     public String getUserId() {
         return userId;
     }
@@ -71,5 +75,21 @@ public class AppUserInfo {
 
     public void setInsertTime(Date insertTime) {
         this.insertTime = insertTime;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }
