@@ -3,9 +3,7 @@ package com.example.mgdoll.model;
 import java.util.Date;
 
 public class AppUserInfo {
-    private Integer userId;
-
-    private String userName;
+    private String userId;
 
     private String userMobile;
 
@@ -19,20 +17,12 @@ public class AppUserInfo {
 
     private Date insertTime;
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
     public String getUserMobile() {

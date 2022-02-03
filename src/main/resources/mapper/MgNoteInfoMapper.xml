@@ -14,10 +14,10 @@
     where note_id = #{noteId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.mgdoll.model.MgNoteInfo">
-    insert into mg_note_info (note_id, note_value, user_mobile, 
+    insert into mg_note_info (note_value, user_mobile,
       send_status, res_contents, insert_time
       )
-    values (#{noteId,jdbcType=INTEGER}, #{noteValue,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, 
+    values (#{noteValue,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR},
       #{sendStatus,jdbcType=VARCHAR}, #{resContents,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -38,5 +38,8 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select note_id, note_value, user_mobile, send_status, res_contents, insert_time
     from mg_note_info
+  </select>
+  <select id="getLastInsertTimeByMobile" resultType="java.util.Date">
+    select insert_time from mg_note_info where user_mobile=#{userMobile} and note_value = #{authCode} ORDER BY insert_time desc
   </select>
 </mapper>

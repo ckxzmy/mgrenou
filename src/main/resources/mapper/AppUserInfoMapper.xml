@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mgdoll.mapper.AppUserInfoMapper">
   <resultMap id="BaseResultMap" type="com.example.mgdoll.model.AppUserInfo">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="user_mobile" jdbcType="VARCHAR" property="userMobile" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
     <result column="user_pet_name" jdbcType="VARCHAR" property="userPetName" />
@@ -11,38 +10,37 @@
     <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from mg_app_user_info
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.example.mgdoll.model.AppUserInfo">
-    insert into mg_app_user_info (user_id, user_name, user_mobile, 
-      user_password, user_pet_name, user_email, 
-      insert_by, insert_time)
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, 
-      #{userPassword,jdbcType=VARCHAR}, #{userPetName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
-      #{insertBy,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP})
+    insert into mg_app_user_info (user_id, user_mobile, user_password, 
+      user_pet_name, user_email, insert_by, 
+      insert_time)
+    values (#{userId,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userPetName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{insertBy,jdbcType=INTEGER}, 
+      #{insertTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.AppUserInfo">
     update mg_app_user_info
-    set user_name = #{userName,jdbcType=VARCHAR},
-      user_mobile = #{userMobile,jdbcType=VARCHAR},
+    set user_mobile = #{userMobile,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
       user_pet_name = #{userPetName,jdbcType=VARCHAR},
       user_email = #{userEmail,jdbcType=VARCHAR},
       insert_by = #{insertBy,jdbcType=INTEGER},
       insert_time = #{insertTime,jdbcType=TIMESTAMP}
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select user_id, user_name, user_mobile, user_password, user_pet_name, user_email, 
-    insert_by, insert_time
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select user_id, user_mobile, user_password, user_pet_name, user_email, insert_by, 
+    insert_time
     from mg_app_user_info
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select user_id, user_name, user_mobile, user_password, user_pet_name, user_email, 
-    insert_by, insert_time
+    select user_id, user_mobile, user_password, user_pet_name, user_email, insert_by, 
+    insert_time
     from mg_app_user_info
   </select>
 </mapper>

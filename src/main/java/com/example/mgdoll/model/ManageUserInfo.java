@@ -3,7 +3,7 @@ package com.example.mgdoll.model;
 import java.util.Date;
 
 public class ManageUserInfo {
-    private Integer userId;
+    private String userId;
 
     private String userMobile;
 
@@ -19,12 +19,14 @@ public class ManageUserInfo {
 
     private String token;
 
-    public Integer getUserId() {
+    private String authCode;
+
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
     public String getUserMobile() {
@@ -81,5 +83,13 @@ public class ManageUserInfo {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }

@@ -7,11 +7,11 @@ import java.util.List;
 
 @Mapper
 public interface AppUserInfoMapper {
-    int deleteByPrimaryKey(Integer userId);
+    int deleteByPrimaryKey(String userId);
 
     int insert(AppUserInfo record);
 
-    AppUserInfo selectByPrimaryKey(Integer userId);
+    AppUserInfo selectByPrimaryKey(String userId);
 
     List<AppUserInfo> selectAll();
 
