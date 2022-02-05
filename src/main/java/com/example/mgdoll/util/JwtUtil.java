@@ -5,10 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.mgdoll.service.impl.ManageUserInfoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -35,9 +33,6 @@ public class JwtUtil {
      * @param token 密钥
      * @return 是否正确
      */
-
-    @Autowired
-    private static ManageUserInfoServiceImpl manageUserInfoServiceImpl;
 
     public static boolean verify(String token) {
         try {
