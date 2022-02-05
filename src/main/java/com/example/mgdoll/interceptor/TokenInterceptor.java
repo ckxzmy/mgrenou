@@ -49,13 +49,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             //token不存在
             if (null != token) {
                 //验证token是否正确
-                String userId = System.getProperty("user.id");
-                if(StringUtils.isEmpty(userId)){
-                    apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SESSION_USER_ERROR);
-                    responseMessage(response,response.getWriter(),apiResponse);
-                    return false;
-                }
-                Boolean result = JwtUtil.verify(token,userId);
+                Boolean result = JwtUtil.verify(token);
                 if (result) {
                     return true;
                 }else {

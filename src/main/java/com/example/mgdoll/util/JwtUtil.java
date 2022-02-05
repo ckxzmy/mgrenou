@@ -5,7 +5,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.mgdoll.service.ManageUserInfoService;
 import com.example.mgdoll.service.impl.ManageUserInfoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +21,7 @@ import java.util.Map;
 public class JwtUtil {
     private static Logger logger = LoggerFactory.getLogger(JwtUtil.class);
     /**
-     * 过期时间一天，
-     * TODO 正式运行时修改为15分钟
+     * 过期时间一天
      */
     private static final long EXPIRE_TIME = 60 * 60 * 1000;
     /**
@@ -41,9 +39,10 @@ public class JwtUtil {
     @Autowired
     private static ManageUserInfoServiceImpl manageUserInfoServiceImpl;
 
-    public static boolean verify(String token, String userId) {
+    public static boolean verify(String token) {
         try {
 //            String userName = System.getProperty("manage.name");
+            String userId = getUserId(token);
             if(userId != ""){
                 TOKEN_SECRET = userId;
             }
