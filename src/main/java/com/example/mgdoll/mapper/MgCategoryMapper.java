@@ -16,4 +16,6 @@ public interface MgCategoryMapper {
     List<MgCategory> selectAll();
 
     int updateByPrimaryKey(MgCategory record);
+
+    List<MgCategory> queryCategoryListByPartId(Integer partId);
 }

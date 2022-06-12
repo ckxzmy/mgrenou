@@ -13,10 +13,12 @@ public class MgPart {
     private Integer dollId;
 
     private Integer colorGroupId;
+    private String colorGroupName;
 
     private Date insertTime;
 
-    private Integer insertBy;
+    private String insertBy;
+    private Integer status;
 
     private List<LayerModel> layerList;
     private List<MgCategory> categoryList;
@@ -85,11 +87,27 @@ public class MgPart {
         this.insertTime = insertTime;
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
+    public void setInsertBy(String insertBy) {
         this.insertBy = insertBy;
+    }
+
+    public String getColorGroupName() {
+        return colorGroupName;
+    }
+
+    public void setColorGroupName(String colorGroupName) {
+        this.colorGroupName = colorGroupName;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -36,13 +36,13 @@ public class AppUserController {
     public ApiResponse login(@RequestBody AppUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
-            Boolean codeFlag = false;
+            Boolean codeFlag = true;
             if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
                 Date insertTime = mgNoteService.getLastInsertTimeByMobile(userInfo.getUserMobile(),userInfo.getAuthCode());
                 if(insertTime != null){
-                    Long diff = System.currentTimeMillis()-insertTime.getTime()-DIFF_DATE;
+                    Long diff = System.currentTimeMillis()-insertTime.getTime();
                     logger.info("该验证码接收时间为：{}，距离当前时间：{}ms",insertTime,System.currentTimeMillis()-insertTime.getTime());
-                    if(diff<0){
+                    if(diff >= 0 && diff <= DIFF_DATE){
                         codeFlag = true;
                     }else apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码失效！");
                 }

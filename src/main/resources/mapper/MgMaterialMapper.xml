@@ -8,19 +8,20 @@
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="color_id" jdbcType="INTEGER" property="colorId" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_material
     where material_id = #{materialId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgMaterial">
-    insert into mg_material (material_id, material_name, layer_level, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgMaterial" useGeneratedKeys="true" keyProperty="materialId">
+    insert into mg_material (material_name, layer_level,
       category_id, color_id, insert_time, 
       insert_by)
-    values (#{materialId,jdbcType=INTEGER}, #{materialName,jdbcType=VARCHAR}, #{layerLevel,jdbcType=INTEGER}, 
+    values (#{materialName,jdbcType=VARCHAR}, #{layerLevel,jdbcType=INTEGER},
       #{categoryId,jdbcType=INTEGER}, #{colorId,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
-      #{insertBy,jdbcType=INTEGER})
+      #{insertBy,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgMaterial">
     update mg_material
@@ -29,18 +30,24 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       color_id = #{colorId,jdbcType=INTEGER},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=INTEGER}
+      insert_by = #{insertBy,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER}
     where material_id = #{materialId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select material_id, material_name, layer_level, category_id, color_id, insert_time, 
-    insert_by
+    insert_by,status
     from mg_material
     where material_id = #{materialId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select material_id, material_name, layer_level, category_id, color_id, insert_time, 
-    insert_by
+    insert_by,status
     from mg_material
+  </select>
+  <select id="querymgMaterialListByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select material_id, material_name, layer_level, category_id, color_id, insert_time,insert_by,status
+    from mg_material
+    where category_id = #{categoryId,jdbcType=INTEGER}
   </select>
 </mapper>

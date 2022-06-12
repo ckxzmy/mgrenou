@@ -39,8 +39,8 @@ public class ApiResponseUtil {
 
     public static ApiResponse getApiResponse(Object data, int code, String msg) {
         ApiResponse apiResponse = new ApiResponse(data);
-        apiResponse.setErrCode(code);
-        apiResponse.setErrMsg(msg);
+        apiResponse.setCode(code);
+        apiResponse.setMessage(msg);
         return apiResponse;
     }
 

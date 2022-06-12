@@ -9,6 +9,7 @@ import com.example.mgdoll.service.ManageUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
+import com.example.mgdoll.util.SmsUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 @RestController
@@ -28,8 +30,6 @@ import java.util.UUID;
 public class ManageUserController {
 
     private static Logger logger = LoggerFactory.getLogger(ManageUserController.class);
-    //验证码超过30分钟失效
-    private static final int DIFF_DATE = 30*60*1000;
 
     @Autowired
     private ManageUserInfoService manageUserInfoService;
@@ -44,15 +44,19 @@ public class ManageUserController {
         if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
             Boolean codeFlag = false;
             if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
-                Date insertTime = mgNoteService.getLastInsertTimeByMobile(userInfo.getUserMobile(),userInfo.getAuthCode());
-                if(insertTime != null){
-                    Long diff = System.currentTimeMillis()-insertTime.getTime()-DIFF_DATE;
-                    logger.info("该验证码接收时间为：{}，距离当前时间：{}ms",insertTime,System.currentTimeMillis()-insertTime.getTime());
-                    if(diff<0){
+                HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
+                if(checkResult != null){
+                    if("200".equals(checkResult.get("code"))){
                         codeFlag = true;
-                    }else apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码失效！");
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
+                        return apiResponse;
+                    }
                 }
-            }else apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
+            }else {
+                apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
+                return apiResponse;
+            }
             if(codeFlag){
                 ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
                 if(existUserInfo != null){
@@ -79,11 +83,26 @@ public class ManageUserController {
             if(existNum >0){
                 apiResponse = ApiResponseUtil.getApiResponse(-1,"This mobile is exist!");
             }else {
-                userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
-                userInfo.setInsertTime(new Date());
-                manageUserInfoService.insert(userInfo);
-                apiResponse = ApiResponseUtil.getApiResponse(userInfo);
-                logger.info("注册成功");
+                if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+                    if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
+                        HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
+                        if(checkResult != null){
+                            if("200".equals(checkResult.get("code"))){
+                                userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
+                                userInfo.setInsertTime(new Date());
+                                manageUserInfoService.insert(userInfo);
+                                apiResponse = ApiResponseUtil.getApiResponse(userInfo);
+                                logger.info("注册成功");
+                            }else {
+                                apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
+                                return apiResponse;
+                            }
+                        }
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
+                        return apiResponse;
+                    }
+                }
             }
         }
         return apiResponse;

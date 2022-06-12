@@ -5,33 +5,33 @@
     <id column="log_id" jdbcType="INTEGER" property="logId" />
     <result column="product_type" jdbcType="VARCHAR" property="productType" />
     <result column="product_id" jdbcType="INTEGER" property="productId" />
-    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="owner_id" jdbcType="VARCHAR" property="ownerId" />
     <result column="sale_type" jdbcType="VARCHAR" property="saleType" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_sale_log
     where log_id = #{logId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgSaleLog">
-    insert into mg_sale_log (log_id, product_type, product_id, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgSaleLog" useGeneratedKeys="true" keyProperty="logId">
+    insert into mg_sale_log (product_type, product_id,
       owner_id, sale_type, price, 
       insert_time, insert_by)
-    values (#{logId,jdbcType=INTEGER}, #{productType,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
-      #{ownerId,jdbcType=INTEGER}, #{saleType,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=INTEGER})
+    values (#{productType,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER},
+      #{ownerId,jdbcType=VARCHAR}, #{saleType,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgSaleLog">
     update mg_sale_log
     set product_type = #{productType,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=INTEGER},
-      owner_id = #{ownerId,jdbcType=INTEGER},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
       sale_type = #{saleType,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=INTEGER}
+      insert_by = #{insertBy,jdbcType=VARCHAR}
     where log_id = #{logId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

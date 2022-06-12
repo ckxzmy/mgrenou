@@ -10,7 +10,7 @@ public class MgSaleLog {
 
     private Integer productId;
 
-    private Integer ownerId;
+    private String ownerId;
 
     private String saleType;
 
@@ -18,7 +18,7 @@ public class MgSaleLog {
 
     private Date insertTime;
 
-    private Integer insertBy;
+    private String insertBy;
 
     public Integer getLogId() {
         return logId;
@@ -44,11 +44,11 @@ public class MgSaleLog {
         this.productId = productId;
     }
 
-    public Integer getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Integer ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -76,11 +76,11 @@ public class MgSaleLog {
         this.insertTime = insertTime;
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
+    public void setInsertBy(String insertBy) {
         this.insertBy = insertBy;
     }
 }

@@ -10,7 +10,9 @@ public class MgColorGroup {
 
     private Date insertTime;
 
-    private Integer insertBy;
+    private String insertBy;
+
+    private Integer status;
 
     private List<MgColor> colorArray;
 
@@ -46,11 +48,19 @@ public class MgColorGroup {
         this.insertTime = insertTime;
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
+    public void setInsertBy(String insertBy) {
         this.insertBy = insertBy;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

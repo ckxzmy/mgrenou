@@ -13,7 +13,7 @@ public class ManageUserInfo {
 
     private String userEmail;
 
-    private Integer insertBy;
+    private String insertBy;
 
     private Date insertTime;
 
@@ -61,11 +61,11 @@ public class ManageUserInfo {
         this.userEmail = userEmail == null ? null : userEmail.trim();
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
+    public void setInsertBy(String insertBy) {
         this.insertBy = insertBy;
     }
 

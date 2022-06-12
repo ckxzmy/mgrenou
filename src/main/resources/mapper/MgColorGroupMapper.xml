@@ -5,7 +5,8 @@
     <id column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="group_name" jdbcType="VARCHAR" property="groupName" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_color_group
@@ -15,23 +16,24 @@
     insert into mg_color_group (group_name, insert_time,
       insert_by)
     values (#{groupName,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP},
-      #{insertBy,jdbcType=INTEGER})
+      #{insertBy,jdbcType=VARCHAR})
 
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgColorGroup">
     update mg_color_group
     set group_name = #{groupName,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=INTEGER}
+      insert_by = #{insertBy,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER}
     where group_id = #{groupId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select group_id, group_name, insert_time, insert_by
+    select group_id, group_name, insert_time, insert_by,status
     from mg_color_group
     where group_id = #{groupId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select group_id, group_name, insert_time, insert_by
+    select group_id, group_name, insert_time, insert_by,status
     from mg_color_group
   </select>
 </mapper>

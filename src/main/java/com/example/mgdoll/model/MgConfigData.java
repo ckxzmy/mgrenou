@@ -7,9 +7,11 @@ public class MgConfigData {
 
     private String configName;
 
+    private Integer configType;
+
     private String configValue;
 
-    private Integer insertBy;
+    private String insertBy;
 
     private Date insertTime;
 
@@ -29,6 +31,14 @@ public class MgConfigData {
         this.configName = configName == null ? null : configName.trim();
     }
 
+    public Integer getConfigType() {
+        return configType;
+    }
+
+    public void setConfigType(Integer configType) {
+        this.configType = configType;
+    }
+
     public String getConfigValue() {
         return configValue;
     }
@@ -37,12 +47,12 @@ public class MgConfigData {
         this.configValue = configValue == null ? null : configValue.trim();
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
-        this.insertBy = insertBy;
+    public void setInsertBy(String insertBy) {
+        this.insertBy = insertBy == null ? null : insertBy.trim();
     }
 
     public Date getInsertTime() {

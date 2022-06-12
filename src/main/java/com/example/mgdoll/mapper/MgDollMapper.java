@@ -16,4 +16,6 @@ public interface MgDollMapper {
     List<MgDoll> selectAll();
 
     int updateByPrimaryKey(MgDoll record);
+
+    List<MgDoll> queryDoll(MgDoll mgDoll);
 }

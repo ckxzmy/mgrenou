@@ -7,7 +7,7 @@
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
     <result column="user_pet_name" jdbcType="VARCHAR" property="userPetName" />
     <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -19,7 +19,7 @@
       user_pet_name, user_email, insert_by, 
       insert_time)
     values (#{userId,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userPetName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{insertBy,jdbcType=INTEGER}, 
+      #{userPetName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{insertBy,jdbcType=VARCHAR},
       #{insertTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.ManageUserInfo">
@@ -28,7 +28,7 @@
       user_password = #{userPassword,jdbcType=VARCHAR},
       user_pet_name = #{userPetName,jdbcType=VARCHAR},
       user_email = #{userEmail,jdbcType=VARCHAR},
-      insert_by = #{insertBy,jdbcType=INTEGER},
+      insert_by = #{insertBy,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>

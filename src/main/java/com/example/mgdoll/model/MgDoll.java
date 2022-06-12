@@ -17,11 +17,13 @@ public class MgDoll {
 
     private BigDecimal price;
 
-    private Integer ownerId;
+    private String ownerId;
 
     private Date insertTime;
 
-    private Integer insertBy;
+    private String insertBy;
+
+    private Integer status;
 
     private List<MgColorGroup> colorList;
     private List<MgPart> partList;
@@ -82,11 +84,11 @@ public class MgDoll {
         this.price = price;
     }
 
-    public Integer getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Integer ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -98,11 +100,11 @@ public class MgDoll {
         this.insertTime = insertTime;
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
+    public void setInsertBy(String insertBy) {
         this.insertBy = insertBy;
     }
 
@@ -120,5 +122,13 @@ public class MgDoll {
 
     public void setSaleTypeString(String saleTypeString) {
         this.saleTypeString = saleTypeString;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

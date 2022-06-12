@@ -8,21 +8,22 @@
     <result column="sale_type" jdbcType="INTEGER" property="saleType" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="owner_id" jdbcType="VARCHAR" property="ownerId" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_color
     where color_id = #{colorId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgColor">
-    insert into mg_color (color_id, color_name, color_type, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgColor" useGeneratedKeys="true" keyProperty="colorId">
+    insert into mg_color (color_name, color_type,
       sale_type, price, group_id, owner_id,
       insert_time, insert_by)
-    values (#{colorId,jdbcType=INTEGER}, #{colorName,jdbcType=VARCHAR}, #{colorType,jdbcType=INTEGER}, 
-      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{groupId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER},
-      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=INTEGER})
+    values (#{colorName,jdbcType=VARCHAR}, #{colorType,jdbcType=INTEGER},
+      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{groupId,jdbcType=INTEGER}, #{ownerId,jdbcType=VARCHAR},
+      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgColor">
     update mg_color
@@ -31,20 +32,21 @@
       sale_type = #{saleType,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       group_id = #{groupId,jdbcType=INTEGER},
-      owner_id = #{ownerId,jdbcType=INTEGER},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=INTEGER}
+      insert_by = #{insertBy,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER}
     where color_id = #{colorId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select color_id, color_name, color_type, sale_type, price,group_id, owner_id, insert_time,
-    insert_by
+    insert_by,status
     from mg_color
     where color_id = #{colorId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select color_id, color_name, color_type, sale_type, price,group_id, owner_id, insert_time,
-    insert_by
+    insert_by,status
     from mg_color
   </select>
 </mapper>

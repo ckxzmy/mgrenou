@@ -5,13 +5,11 @@ import com.example.mgdoll.conf.ApiResponseEnum;
 
 /**
  * web层统一返回类型
- * @author qiaokun
- * @date 2018/07/18
  */
 public class ApiResponse {
-    private int errCode = 0;
+    private int code = 0;
 
-    private String errMsg;
+    private String message;
 
     private Object data;
 
@@ -25,24 +23,24 @@ public class ApiResponse {
     }
 
     public ApiResponse(ApiResponseEnum apiResponseEnum){
-        this.errCode = apiResponseEnum.getErrCode();
-        this.errMsg = apiResponseEnum.getErrMsg();
+        this.code = apiResponseEnum.getErrCode();
+        this.message = apiResponseEnum.getErrMsg();
     }
 
-    public int getErrCode() {
-        return errCode;
+    public int getCode() {
+        return code;
     }
 
-    public void setErrCode(int errCode) {
-        this.errCode = errCode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getErrMsg() {
-        return errMsg;
+    public String getmessage() {
+        return message;
     }
 
-    public void setErrMsg(String errMsg) {
-        this.errMsg = errMsg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Object getData() {
@@ -56,8 +54,8 @@ public class ApiResponse {
     @Override
     public String toString() {
         return "ApiResponse{" +
-                "errCode=" + errCode +
-                ", errMsg='" + errMsg + '\'' +
+                "code=" + code +
+                ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }

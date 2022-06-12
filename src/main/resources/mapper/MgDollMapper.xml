@@ -7,21 +7,22 @@
     <result column="doll_type" jdbcType="INTEGER" property="dollType" />
     <result column="sale_type" jdbcType="INTEGER" property="saleType" />
     <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="owner_id" jdbcType="VARCHAR" property="ownerId" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_doll
     where doll_id = #{dollId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgDoll">
-    insert into mg_doll (doll_id, doll_name, doll_type, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgDoll" useGeneratedKeys="true" keyProperty="dollId">
+    insert into mg_doll (doll_name, doll_type,
       sale_type, price, owner_id, 
       insert_time, insert_by)
-    values (#{dollId,jdbcType=INTEGER}, #{dollName,jdbcType=VARCHAR}, #{dollType,jdbcType=INTEGER}, 
-      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{ownerId,jdbcType=INTEGER}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=INTEGER})
+    values (#{dollName,jdbcType=VARCHAR}, #{dollType,jdbcType=INTEGER},
+      #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{ownerId,jdbcType=VARCHAR},
+      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgDoll">
     update mg_doll
@@ -29,18 +30,27 @@
       doll_type = #{dollType,jdbcType=INTEGER},
       sale_type = #{saleType,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
-      owner_id = #{ownerId,jdbcType=INTEGER},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=INTEGER}
+      insert_by = #{insertBy,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER}
     where doll_id = #{dollId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by
+    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
     from mg_doll
     where doll_id = #{dollId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by
+    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
     from mg_doll
+  </select>
+  <select id="queryDoll" resultMap="BaseResultMap" parameterType="com.example.mgdoll.model.MgDoll">
+    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
+    from mg_doll
+    where 1=1
+    <if test="ownerId != null and ownerId != ''">
+      and owner_id = #{ownerId,jdbcType=VARCHAR}
+    </if>
   </select>
 </mapper>

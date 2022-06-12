@@ -18,11 +18,13 @@ public class MgColor {
 
     private Integer groupId;
 
-    private Integer ownerId;
+    private String ownerId;
 
     private Date insertTime;
 
-    private Integer insertBy;
+    private String insertBy;
+
+    private Integer status;
 
     public Integer getColorId() {
         return colorId;
@@ -72,11 +74,11 @@ public class MgColor {
         this.groupId = groupId;
     }
 
-    public Integer getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Integer ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -88,11 +90,11 @@ public class MgColor {
         this.insertTime = insertTime;
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
+    public void setInsertBy(String insertBy) {
         this.insertBy = insertBy;
     }
 
@@ -110,5 +112,13 @@ public class MgColor {
 
     public void setSaleTypeString(String saleTypeString) {
         this.saleTypeString = saleTypeString;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

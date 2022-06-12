@@ -19,7 +19,7 @@ import java.util.Map;
 public class JwtUtil {
     private static Logger logger = LoggerFactory.getLogger(JwtUtil.class);
     /**
-     * 过期时间一天
+     * 过期时间
      */
     private static final long EXPIRE_TIME = 60 * 60 * 1000;
     /**

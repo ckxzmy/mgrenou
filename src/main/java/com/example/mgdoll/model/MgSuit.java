@@ -14,11 +14,13 @@ public class MgSuit {
 
     private BigDecimal price;
 
-    private Integer ownerId;
+    private String ownerId;
 
     private Date insertTime;
 
-    private Integer insertBy;
+    private String insertBy;
+
+    private Integer status;
 
     public Integer getSuitId() {
         return suitId;
@@ -60,12 +62,12 @@ public class MgSuit {
         this.price = price;
     }
 
-    public Integer getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId == null ? null : ownerId.trim();
     }
 
     public Date getInsertTime() {
@@ -76,11 +78,19 @@ public class MgSuit {
         this.insertTime = insertTime;
     }
 
-    public Integer getInsertBy() {
+    public String getInsertBy() {
         return insertBy;
     }
 
-    public void setInsertBy(Integer insertBy) {
-        this.insertBy = insertBy;
+    public void setInsertBy(String insertBy) {
+        this.insertBy = insertBy == null ? null : insertBy.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

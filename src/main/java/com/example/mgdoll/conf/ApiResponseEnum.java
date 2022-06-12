@@ -7,13 +7,13 @@ public enum ApiResponseEnum {
     /**
      * API调用成功返回
      */
-    SUCCESS(10000,"请求成功"),
-    FAIL(10001,"请求失败"),
-    LOGIN_FAIL(10099,"登陆失败"),
-    AUTH_ERROR(10100,"登录失败"),
-    TOKEN_EXPIRE(10200,"Token过期"),
-    TOKEN_FAIL(10201,"Token不存在"),
-    SESSION_USER_ERROR(10300,"User未获取到");
+    SUCCESS(0,"请求成功"),
+    FAIL(-1,"请求失败"),
+    LOGIN_FAIL(-1,"登陆失败"),
+    AUTH_ERROR(-1,"登录失败"),
+    TOKEN_EXPIRE(-1,"Token过期"),
+    TOKEN_FAIL(-1,"Token不存在"),
+    SESSION_USER_ERROR(-1,"User未获取到");
 
     private int errCode = 0;
 

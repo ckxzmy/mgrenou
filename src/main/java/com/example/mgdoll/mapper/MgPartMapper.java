@@ -16,4 +16,6 @@ public interface MgPartMapper {
     List<MgPart> selectAll();
 
     int updateByPrimaryKey(MgPart record);
+
+    List<MgPart> queryPartListByDollId(Integer dollId);
 }

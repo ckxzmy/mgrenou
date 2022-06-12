@@ -16,4 +16,6 @@ public interface MgMaterialMapper {
     List<MgMaterial> selectAll();
 
     int updateByPrimaryKey(MgMaterial record);
+
+    List<MgMaterial> querymgMaterialListByCategoryId(Integer categoryId);
 }

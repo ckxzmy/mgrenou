@@ -10,23 +10,24 @@
     <result column="part_id" jdbcType="INTEGER" property="partId" />
     <result column="color_id" jdbcType="INTEGER" property="colorId" />
     <result column="suit_id" jdbcType="INTEGER" property="suitId" />
-    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="owner_id" jdbcType="VARCHAR" property="ownerId" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="insert_by" jdbcType="INTEGER" property="insertBy" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_category
     where category_id = #{categoryId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgCategory">
-    insert into mg_category (category_id, category_name, category_type, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgCategory" useGeneratedKeys="true" keyProperty="categoryId">
+    insert into mg_category (category_name, category_type,
       sale_type, price, part_id, 
       color_id, suit_id, owner_id, 
       insert_time, insert_by)
-    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=INTEGER}, 
+    values (#{categoryName,jdbcType=VARCHAR}, #{categoryType,jdbcType=INTEGER},
       #{saleType,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{partId,jdbcType=INTEGER}, 
-      #{colorId,jdbcType=INTEGER}, #{suitId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, 
-      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=INTEGER})
+      #{colorId,jdbcType=INTEGER}, #{suitId,jdbcType=INTEGER}, #{ownerId,jdbcType=VARCHAR},
+      #{insertTime,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgCategory">
     update mg_category
@@ -37,20 +38,27 @@
       part_id = #{partId,jdbcType=INTEGER},
       color_id = #{colorId,jdbcType=INTEGER},
       suit_id = #{suitId,jdbcType=INTEGER},
-      owner_id = #{ownerId,jdbcType=INTEGER},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      insert_by = #{insertBy,jdbcType=INTEGER}
+      insert_by = #{insertBy,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
     where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select category_id, category_name, category_type, sale_type, price, part_id, color_id, 
-    suit_id, owner_id, insert_time, insert_by
+    suit_id, owner_id, insert_time, insert_by,status
     from mg_category
     where category_id = #{categoryId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select category_id, category_name, category_type, sale_type, price, part_id, color_id, 
-    suit_id, owner_id, insert_time, insert_by
+    suit_id, owner_id, insert_time, insert_by,status
     from mg_category
+  </select>
+  <select id="queryCategoryListByPartId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select category_id, category_name, category_type, sale_type, price, part_id, color_id,
+           suit_id, owner_id, insert_time, insert_by,status
+    from mg_category
+    where part_id = #{partId,jdbcType=INTEGER}
   </select>
 </mapper>
