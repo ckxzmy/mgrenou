@@ -33,6 +33,7 @@ public class DollManageController {
 
     @PostMapping("/insert")
     @ResponseBody
+    @CrossOrigin
     public ApiResponse insert(@RequestBody MgDoll doll,HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
         final String token = request.getHeader("access_token");
@@ -74,6 +75,7 @@ public class DollManageController {
     }
 
     @GetMapping("/queryDoll")
+    @CrossOrigin
     public ApiResponse queryDoll(HttpServletRequest request,@RequestParam String dollId){
         ApiResponse apiResponse = new ApiResponse();
         apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
@@ -90,6 +92,7 @@ public class DollManageController {
     }
 
     @GetMapping("/queryDollList")
+    @CrossOrigin
     public ApiResponse queryDollList(HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
         apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
@@ -102,6 +105,13 @@ public class DollManageController {
             apiResponse = ApiResponseUtil.getApiResponse(dollList);
         }else apiResponse = ApiResponseUtil.getApiResponse(-1,"未获取到user，请联系管理员！");
         return apiResponse;
+    }
+
+    @GetMapping("exportPic")
+    @CrossOrigin  //跨域注解
+    public void exportPic(HttpServletRequest request,@RequestParam String dollId){
+        final String token = request.getHeader("access_token");
+
     }
 
 }

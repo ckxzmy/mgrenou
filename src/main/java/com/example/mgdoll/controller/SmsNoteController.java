@@ -30,6 +30,7 @@ public class SmsNoteController {
     @GetMapping("/sendSms")
     @NotCheckTokenAnn
     @ResponseBody
+    @CrossOrigin
     public ApiResponse sendSms(@RequestParam("userMobile") String mobile){
         ApiResponse apiResponse = new ApiResponse();
         if(StringUtils.isNotEmpty(mobile)){

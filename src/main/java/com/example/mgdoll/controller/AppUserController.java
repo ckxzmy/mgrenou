@@ -4,6 +4,7 @@ import com.example.mgdoll.conf.ApiResponseEnum;
 import com.example.mgdoll.conf.NotCheckTokenAnn;
 import com.example.mgdoll.model.ApiResponse;
 import com.example.mgdoll.model.AppUserInfo;
+import com.example.mgdoll.model.ManageUserInfo;
 import com.example.mgdoll.service.AppUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +35,7 @@ public class AppUserController {
 
     @PostMapping("/login")
     @ResponseBody
+    @CrossOrigin
     public ApiResponse login(@RequestBody AppUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
@@ -63,23 +66,41 @@ public class AppUserController {
         return apiResponse;
     }
 
+
     @PostMapping("/register")
     @NotCheckTokenAnn
     @ResponseBody
+    @CrossOrigin
     public ApiResponse register(@RequestBody AppUserInfo userInfo){
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null){
             Integer existNum = appUserInfoService.selectExistUserByMobile(userInfo);
             if(existNum >0){
-                apiResponse = ApiResponseUtil.getApiResponse(-1,"This mobile is exist!");
+                apiResponse = ApiResponseUtil.getApiResponse(-101,"This mobile is exist!");
             }else {
-                userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
-                userInfo.setInsertTime(new Date());
-                appUserInfoService.insert(userInfo);
-                apiResponse = ApiResponseUtil.getApiResponse(userInfo);
-                logger.info("注册成功");
+                if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+                    if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
+                        HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
+                        if(checkResult != null){
+                            if("200".equals(checkResult.get("code"))){
+                                userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
+                                userInfo.setInsertTime(new Date());
+                                appUserInfoService.insert(userInfo);
+                                apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
+                                logger.info("注册成功");
+                            }else {
+                                apiResponse = ApiResponseUtil.getApiResponse(-101,checkResult.get("message"));
+                                return apiResponse;
+                            }
+                        }
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(-101,"验证码为空！");
+                        return apiResponse;
+                    }
+                }
             }
         }
         return apiResponse;
     }
+
 }

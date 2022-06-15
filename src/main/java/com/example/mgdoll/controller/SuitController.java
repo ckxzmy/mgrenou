@@ -22,6 +22,7 @@ public class SuitController {
 
     @PostMapping("/insert")
     @ResponseBody
+    @CrossOrigin
     public ApiResponse insert(@RequestBody MgSuit mgSuit, HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
         final String token = request.getHeader("access_token");

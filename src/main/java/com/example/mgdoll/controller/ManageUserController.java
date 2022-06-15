@@ -39,72 +39,45 @@ public class ManageUserController {
 
     @PostMapping("/login")
     @ResponseBody
+    @CrossOrigin
     public ApiResponse login(@RequestBody ManageUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
-        if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
-            Boolean codeFlag = false;
-            if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
+        if(userInfo != null){
+            if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+                String password = userInfo.getUserPassword();
+                ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
+                if(existUserInfo != null){
+                    if(password.equals(existUserInfo.getUserPassword())){
+                        String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                        existUserInfo.setToken(token);
+                        apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
+                    }
+                }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+            }else if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getAuthCode())){
                 HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
                 if(checkResult != null){
                     if("200".equals(checkResult.get("code"))){
-                        codeFlag = true;
+                        ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
+                        if(existUserInfo != null){
+                            String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                            existUserInfo.setToken(token);
+                            apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
+                        }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
                     }else {
                         apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
                         return apiResponse;
                     }
                 }
             }else {
-                apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
+                apiResponse = ApiResponseUtil.getApiResponse(-101,"请正确登录！");
                 return apiResponse;
             }
-            if(codeFlag){
-                ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
-                if(existUserInfo != null){
-                    String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
-                    existUserInfo.setToken(token);
-                    apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
-                    System.setProperty("user.name",existUserInfo.getUserMobile());
-                    System.setProperty("user.id",existUserInfo.getUserId());
-                }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
-            }
 
         }
 
         return apiResponse;
     }
 
-    @PostMapping("/register")
-    @NotCheckTokenAnn
-    @ResponseBody
-    public ApiResponse register(@RequestBody ManageUserInfo userInfo){
-        ApiResponse apiResponse = new ApiResponse();
-        if(userInfo != null){
-            Integer existNum = manageUserInfoService.selectExistUserByMobile(userInfo);
-            if(existNum >0){
-                apiResponse = ApiResponseUtil.getApiResponse(-1,"This mobile is exist!");
-            }else {
-                if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
-                    if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
-                        HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
-                        if(checkResult != null){
-                            if("200".equals(checkResult.get("code"))){
-                                userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
-                                userInfo.setInsertTime(new Date());
-                                manageUserInfoService.insert(userInfo);
-                                apiResponse = ApiResponseUtil.getApiResponse(userInfo);
-                                logger.info("注册成功");
-                            }else {
-                                apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
-                                return apiResponse;
-                            }
-                        }
-                    }else {
-                        apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
-                        return apiResponse;
-                    }
-                }
-            }
-        }
-        return apiResponse;
-    }
 }

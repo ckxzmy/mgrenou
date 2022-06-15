@@ -17,7 +17,7 @@ import java.util.List;
 public class MgNoteServiceImpl implements MgNoteService {
     private static Logger logger = LoggerFactory.getLogger(MgNoteServiceImpl.class);
     //验证码超过30分钟失效
-    private static final int DIFF_DATE = 4*60*60*1000;
+    private static final int DIFF_DATE = 60*60*1000;
 
     @Autowired
     private MgNoteInfoMapper mgNoteInfoMapper;
