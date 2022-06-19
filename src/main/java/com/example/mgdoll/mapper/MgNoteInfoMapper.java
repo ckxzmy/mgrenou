@@ -19,5 +19,5 @@ public interface MgNoteInfoMapper {
 
     int updateByPrimaryKey(MgNoteInfo record);
 
-    List<Date> getLastInsertTimeByMobile(@Param("userMobile") String userMobile,@Param("authCode") String authCode);
+    List<Date> getLastInsertTimeByMobile(@Param("userMobile") String userMobile,@Param("authCode") String authCode,@Param("userFlag") String userFlag);
 }

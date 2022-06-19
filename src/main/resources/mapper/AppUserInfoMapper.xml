@@ -48,7 +48,6 @@
              insert_by, insert_time
       from mg_app_user_info
       where user_mobile = #{userMobile,jdbcType=VARCHAR}
-        and user_password = #{userPassword,jdbcType=VARCHAR}
     </select>
   <select id="selectExistUserByMobile" resultType="java.lang.Integer">
     select count(user_id) from mg_app_user_info

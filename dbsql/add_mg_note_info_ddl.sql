@@ -1,0 +1,1 @@
+ALTER TABLE mg_note_info ADD user_flag VARCHAR(10);

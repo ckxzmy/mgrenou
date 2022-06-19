@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.AccountTokenMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.AccountToken">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="user_flag" jdbcType="VARCHAR" property="userFlag" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from account_token
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.AccountToken">
+    insert into account_token (phone, user_flag,
+      token, insert_time)
+    values (#{phone,jdbcType=VARCHAR}, #{userFlag,jdbcType=VARCHAR},
+      #{token,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.AccountToken">
+    update account_token
+    set phone = #{phone,jdbcType=VARCHAR},
+      user_flag = #{userFlag,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateToken">
+    update account_token
+    set insert_time = #{date}
+    where phone = #{phone} and token = #{token}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, phone, user_flag, token, insert_time
+    from account_token
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, phone, user_flag, token, insert_time
+    from account_token
+  </select>
+  <select id="getLastTimeByPhone" resultType="java.util.Date">
+    select insert_time
+    from account_token
+    where phone = #{phone} and token = #{token}
+  </select>
+</mapper>

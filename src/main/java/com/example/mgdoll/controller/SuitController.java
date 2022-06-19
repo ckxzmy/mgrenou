@@ -2,6 +2,7 @@ package com.example.mgdoll.controller;
 
 import com.example.mgdoll.model.ApiResponse;
 import com.example.mgdoll.model.MgSuit;
+import com.example.mgdoll.service.AccountTokenService;
 import com.example.mgdoll.service.SuitService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
@@ -19,12 +20,15 @@ public class SuitController {
 
     @Autowired
     private SuitService suitService;
+    @Autowired
+    private AccountTokenService accountTokenService;
 
     @PostMapping("/insert")
     @ResponseBody
     @CrossOrigin
     public ApiResponse insert(@RequestBody MgSuit mgSuit, HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
+        accountTokenService.updateToken(request);
         final String token = request.getHeader("access_token");
         String userId = JwtUtil.getUserId(token);
         if(mgSuit != null){

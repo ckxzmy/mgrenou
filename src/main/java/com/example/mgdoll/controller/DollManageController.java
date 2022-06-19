@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.mgdoll.conf.ApiResponseEnum;
 import com.example.mgdoll.mapper.MgDollMapper;
 import com.example.mgdoll.model.*;
+import com.example.mgdoll.service.AccountTokenService;
 import com.example.mgdoll.service.MgColorService;
 import com.example.mgdoll.service.MgDollService;
 import com.example.mgdoll.service.MgPartService;
@@ -30,12 +31,15 @@ public class DollManageController {
     private MgColorService colorService;
     @Autowired
     private MgPartService partService;
+    @Autowired
+    private AccountTokenService accountTokenService;
 
     @PostMapping("/insert")
     @ResponseBody
     @CrossOrigin
     public ApiResponse insert(@RequestBody MgDoll doll,HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
+        accountTokenService.updateToken(request);
         final String token = request.getHeader("access_token");
         String userId = JwtUtil.getUserId(token);
         if(doll != null){
@@ -78,8 +82,8 @@ public class DollManageController {
     @CrossOrigin
     public ApiResponse queryDoll(HttpServletRequest request,@RequestParam String dollId){
         ApiResponse apiResponse = new ApiResponse();
+        accountTokenService.updateToken(request);
         apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
-        String userName = JwtUtil.getUsername(request.getHeader("access_token"));
         if(StringUtils.isNotEmpty(dollId)){
             List<MgPart> partList = partService.queryPartListByDollId(Integer.valueOf(dollId));
 
@@ -87,7 +91,6 @@ public class DollManageController {
             mgDoll.setPartList(partList);
             apiResponse = ApiResponseUtil.getApiResponse(mgDoll);
         }else apiResponse = ApiResponseUtil.getApiResponse(-1,"dollId为空！");
-        logger.info("当前用户：{}",userName);
         return apiResponse;
     }
 
@@ -95,6 +98,7 @@ public class DollManageController {
     @CrossOrigin
     public ApiResponse queryDollList(HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
+        accountTokenService.updateToken(request);
         apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
         final String token = request.getHeader("access_token");
         String userId = JwtUtil.getUserId(token);

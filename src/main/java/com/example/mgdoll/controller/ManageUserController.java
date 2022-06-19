@@ -1,10 +1,12 @@
 package com.example.mgdoll.controller;
 
 import com.example.mgdoll.conf.ApiResponseEnum;
+import com.example.mgdoll.conf.CommonConf;
 import com.example.mgdoll.conf.NotCheckTokenAnn;
 import com.example.mgdoll.model.ApiResponse;
 import com.example.mgdoll.model.ManageUserInfo;
 import com.example.mgdoll.model.ResContent;
+import com.example.mgdoll.service.AccountTokenService;
 import com.example.mgdoll.service.ManageUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
@@ -37,6 +39,9 @@ public class ManageUserController {
     @Autowired
     private MgNoteService mgNoteService;
 
+    @Autowired
+    private AccountTokenService accountTokenService;
+
     @PostMapping("/login")
     @ResponseBody
     @CrossOrigin
@@ -50,19 +55,21 @@ public class ManageUserController {
                     if(password.equals(existUserInfo.getUserPassword())){
                         String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
                         existUserInfo.setToken(token);
+                        accountTokenService.saveToken(existUserInfo, CommonConf.MANAGE_FLAG);
                         apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
                     }else {
                         apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
                     }
                 }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
             }else if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getAuthCode())){
-                HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
+                HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.MANAGE_FLAG);
                 if(checkResult != null){
                     if("200".equals(checkResult.get("code"))){
                         ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
                         if(existUserInfo != null){
                             String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
                             existUserInfo.setToken(token);
+                            accountTokenService.saveToken(existUserInfo,CommonConf.MANAGE_FLAG);
                             apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
                         }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
                     }else {

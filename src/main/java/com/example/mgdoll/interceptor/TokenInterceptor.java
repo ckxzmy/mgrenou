@@ -5,9 +5,11 @@ import com.example.mgdoll.conf.ApiResponseEnum;
 import com.example.mgdoll.conf.CommonConf;
 import com.example.mgdoll.conf.NotCheckTokenAnn;
 import com.example.mgdoll.model.ApiResponse;
+import com.example.mgdoll.service.AccountTokenService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +23,9 @@ import java.lang.reflect.Method;
  * 自定义token拦截器
  */
 public class TokenInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private AccountTokenService accountTokenService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -51,9 +56,23 @@ public class TokenInterceptor implements HandlerInterceptor {
                 //验证token是否正确
                 Boolean result = JwtUtil.verify(token);
                 if (result) {
-                    return true;
+                    String phone =  JwtUtil.getUsername(token);
+                    Boolean exResult = accountTokenService.verifyExpire(phone,token);
+                    if(exResult != null){
+                        if(exResult){
+                            return true;
+                        }else {
+                            apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.TOKEN_EXPIRE);
+                            responseMessage(response,response.getWriter(),apiResponse);
+                            return false;
+                        }
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.TOKEN_FAIL);
+                        responseMessage(response,response.getWriter(),apiResponse);
+                        return false;
+                    }
                 }else {
-                    apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.TOKEN_EXPIRE);
+                    apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.TOKEN_FAIL);
                     responseMessage(response,response.getWriter(),apiResponse);
                     return false;
                 }

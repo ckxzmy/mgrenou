@@ -1,10 +1,12 @@
 package com.example.mgdoll.controller;
 
 import com.example.mgdoll.conf.ApiResponseEnum;
+import com.example.mgdoll.conf.CommonConf;
 import com.example.mgdoll.conf.NotCheckTokenAnn;
 import com.example.mgdoll.model.ApiResponse;
 import com.example.mgdoll.model.AppUserInfo;
 import com.example.mgdoll.model.ManageUserInfo;
+import com.example.mgdoll.service.AccountTokenService;
 import com.example.mgdoll.service.AppUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
@@ -32,33 +34,48 @@ public class AppUserController {
 
     @Autowired
     private MgNoteService mgNoteService;
+    @Autowired
+    private AccountTokenService accountTokenService;
 
     @PostMapping("/login")
     @ResponseBody
     @CrossOrigin
     public ApiResponse login(@RequestBody AppUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
-        if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
-            Boolean codeFlag = true;
-            if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
-                Date insertTime = mgNoteService.getLastInsertTimeByMobile(userInfo.getUserMobile(),userInfo.getAuthCode());
-                if(insertTime != null){
-                    Long diff = System.currentTimeMillis()-insertTime.getTime();
-                    logger.info("该验证码接收时间为：{}，距离当前时间：{}ms",insertTime,System.currentTimeMillis()-insertTime.getTime());
-                    if(diff >= 0 && diff <= DIFF_DATE){
-                        codeFlag = true;
-                    }else apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码失效！");
-                }
-            }else apiResponse = ApiResponseUtil.getApiResponse(-1,"验证码为空！");
-            if(codeFlag){
+
+        if(userInfo != null){
+            if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+                String password = userInfo.getUserPassword();
                 AppUserInfo existUserInfo = appUserInfoService.loginByInfo(userInfo);
                 if(existUserInfo != null){
-                    String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
-                    existUserInfo.setToken(token);
-                    apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
-                    System.setProperty("user.name",existUserInfo.getUserMobile());
-                    System.setProperty("user.id",existUserInfo.getUserId());
+                    if(password.equals(existUserInfo.getUserPassword())){
+                        String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                        existUserInfo.setToken(token);
+                        accountTokenService.saveToken(existUserInfo, CommonConf.APP_FLAG);
+                        apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
+                    }
                 }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+            }else if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getAuthCode())){
+                HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.APP_FLAG);
+                if(checkResult != null){
+                    if("200".equals(checkResult.get("code"))){
+                        AppUserInfo existUserInfo = appUserInfoService.loginByInfo(userInfo);
+                        if(existUserInfo != null){
+                            String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                            existUserInfo.setToken(token);
+                            accountTokenService.saveToken(existUserInfo, CommonConf.APP_FLAG);
+                            apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
+                        }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+                    }else {
+                        apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
+                        return apiResponse;
+                    }
+                }
+            }else {
+                apiResponse = ApiResponseUtil.getApiResponse(-101,"请正确登录！");
+                return apiResponse;
             }
 
         }
@@ -80,7 +97,7 @@ public class AppUserController {
             }else {
                 if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
                     if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
-                        HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode());
+                        HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.APP_FLAG);
                         if(checkResult != null){
                             if("200".equals(checkResult.get("code"))){
                                 userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));

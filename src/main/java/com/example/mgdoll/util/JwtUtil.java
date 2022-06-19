@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Java web token 工具类
@@ -21,7 +22,7 @@ public class JwtUtil {
     /**
      * 过期时间
      */
-    private static final long EXPIRE_TIME = 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 20 * 1000;//60 * 60 * 1000;
     /**
      * token私钥
      */
@@ -92,7 +93,7 @@ public class JwtUtil {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
 //            私钥及加密算法
         TOKEN_SECRET = userId;
-
+        String uuid = UUID.randomUUID().toString();
         Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
 //            设置头部信息
         Map<String, Object> header = new HashMap<>(2);
@@ -103,7 +104,8 @@ public class JwtUtil {
                 .withHeader(header)
                 .withClaim("userMobile", username)
                 .withClaim("userId",userId)
-                .withExpiresAt(date)
+                .withClaim("uuId", uuid)
+//                .withExpiresAt(date)
                 .sign(algorithm);
     }
 

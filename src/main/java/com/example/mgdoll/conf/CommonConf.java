@@ -59,4 +59,7 @@ public class CommonConf {
     public static final String LOGIN_OUT = "/toLogout";
     // 不验证URL anon：不验证/authc：受控制的
     public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)).*";
+
+    public static final String MANAGE_FLAG = "manage";
+    public static final String APP_FLAG = "app";
 }

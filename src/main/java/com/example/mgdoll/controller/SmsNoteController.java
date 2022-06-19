@@ -31,7 +31,7 @@ public class SmsNoteController {
     @NotCheckTokenAnn
     @ResponseBody
     @CrossOrigin
-    public ApiResponse sendSms(@RequestParam("userMobile") String mobile){
+    public ApiResponse sendSms(@RequestParam("userMobile") String mobile,@RequestParam("flag") String flag){
         ApiResponse apiResponse = new ApiResponse();
         if(StringUtils.isNotEmpty(mobile)){
             Random random = new Random();
@@ -51,6 +51,7 @@ public class SmsNoteController {
                         mgNoteInfo.setInsertTime(new Date());
                         mgNoteInfo.setResContents(SendSmsResponse.toJsonString(res));
                         mgNoteInfo.setUserMobile(mobile);
+                        mgNoteInfo.setUserFlag(flag);
                         mgNoteService.insert(mgNoteInfo);
                         apiResponse = ApiResponseUtil.getApiResponse(0,"验证码发送成功！");
                     }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);

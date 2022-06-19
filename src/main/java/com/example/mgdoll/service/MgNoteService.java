@@ -8,7 +8,7 @@ import java.util.HashMap;
 public interface MgNoteService {
     void insert(MgNoteInfo mgNoteInfo);
 
-    Date getLastInsertTimeByMobile(String userMobile, String authCode);
+    Date getLastInsertTimeByMobile(String userMobile, String authCode, String flag);
 
-    HashMap<String, String> checkAuthCode(String userMobile,String authCode);
+    HashMap<String, String> checkAuthCode(String userMobile,String authCode, String flag);
 }

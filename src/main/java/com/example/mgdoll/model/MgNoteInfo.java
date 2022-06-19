@@ -15,6 +15,8 @@ public class MgNoteInfo {
 
     private Date insertTime;
 
+    private String userFlag;
+
     public Integer getNoteId() {
         return noteId;
     }
@@ -61,5 +63,13 @@ public class MgNoteInfo {
 
     public void setInsertTime(Date insertTime) {
         this.insertTime = insertTime;
+    }
+
+    public String getUserFlag() {
+        return userFlag;
+    }
+
+    public void setUserFlag(String userFlag) {
+        this.userFlag = userFlag;
     }
 }
