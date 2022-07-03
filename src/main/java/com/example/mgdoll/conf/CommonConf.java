@@ -58,7 +58,7 @@ public class CommonConf {
     public static final String ON_LOGIN = "/logout.htm";
     public static final String LOGIN_OUT = "/toLogout";
     // 不验证URL anon：不验证/authc：受控制的
-    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)|(/swagger-ui.html)).*";
+    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)|(swagger-ui.html)|(swagger-resources)|(webjars)|(v2)).*";
 
     public static final String MANAGE_FLAG = "manage";
     public static final String APP_FLAG = "app";
