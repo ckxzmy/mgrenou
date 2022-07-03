@@ -18,6 +18,7 @@ public class MgMaterial {
 
     private String insertBy;
     private Integer status;
+    private String picUrl;
 
     public Integer getMaterialId() {
         return materialId;
@@ -89,5 +90,13 @@ public class MgMaterial {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 }

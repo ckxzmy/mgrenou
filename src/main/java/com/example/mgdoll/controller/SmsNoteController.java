@@ -1,6 +1,7 @@
 package com.example.mgdoll.controller;
 
 import com.example.mgdoll.conf.ApiResponseEnum;
+import com.example.mgdoll.conf.CommonConf;
 import com.example.mgdoll.conf.NotCheckTokenAnn;
 import com.example.mgdoll.model.ApiResponse;
 import com.example.mgdoll.model.MgNoteInfo;
@@ -31,8 +32,12 @@ public class SmsNoteController {
     @NotCheckTokenAnn
     @ResponseBody
     @CrossOrigin
-    public ApiResponse sendSms(@RequestParam("userMobile") String mobile,@RequestParam("flag") String flag){
+    public ApiResponse sendSms(@RequestParam("userMobile") String mobile,@RequestParam( value = "flag",required = false) String flag){
         ApiResponse apiResponse = new ApiResponse();
+        if(StringUtils.isEmpty(flag)){
+            apiResponse = ApiResponseUtil.getApiResponse(-101,"系统出错，请联系管理员！");
+            return apiResponse;
+        }
         if(StringUtils.isNotEmpty(mobile)){
             Random random = new Random();
             try {

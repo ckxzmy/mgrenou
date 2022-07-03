@@ -12,6 +12,8 @@ import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
 import com.example.mgdoll.util.SmsUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
+@Api("获取用户信息")
 @RestController
 @RequestMapping("/manageUser")
 public class ManageUserController {
@@ -45,10 +48,11 @@ public class ManageUserController {
     @PostMapping("/login")
     @ResponseBody
     @CrossOrigin
+    @ApiOperation(value = "用户登录",notes = "用户登录")
     public ApiResponse login(@RequestBody ManageUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null){
-            if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+            if(CommonConf.LOGIN_TYPE_PASSWORD.equals(userInfo.getLoginType())){
                 String password = userInfo.getUserPassword();
                 ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
                 if(existUserInfo != null){
@@ -61,7 +65,7 @@ public class ManageUserController {
                         apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
                     }
                 }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
-            }else if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getAuthCode())){
+            }else if(CommonConf.LOGIN_TYPE_MESSAGE.equals(userInfo.getLoginType())){
                 HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.MANAGE_FLAG);
                 if(checkResult != null){
                     if("200".equals(checkResult.get("code"))){

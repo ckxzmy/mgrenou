@@ -12,6 +12,27 @@
     <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+  <resultMap id="ResResultMap" type="com.example.mgdoll.model.MgDoll">
+    <id column="doll_id" jdbcType="INTEGER" property="dollId" />
+    <result column="doll_name" jdbcType="VARCHAR" property="dollName" />
+    <result column="doll_type" jdbcType="INTEGER" property="dollType" />
+    <result column="sale_type" jdbcType="INTEGER" property="saleType" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap id="ResPaNameResultMap" type="com.example.mgdoll.model.MgDoll">
+    <id column="doll_id" jdbcType="INTEGER" property="dollId" />
+    <result column="doll_name" jdbcType="VARCHAR" property="dollName" />
+    <result column="doll_type" jdbcType="INTEGER" property="dollType" />
+    <result column="sale_type" jdbcType="INTEGER" property="saleType" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="user_pet_name" jdbcType="VARCHAR" property="painterName" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_doll
     where doll_id = #{dollId,jdbcType=INTEGER}
@@ -36,8 +57,8 @@
         status = #{status,jdbcType=INTEGER}
     where doll_id = #{dollId,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResResultMap">
+    select doll_id, doll_name, doll_type, sale_type, price, insert_time, insert_by,status
     from mg_doll
     where doll_id = #{dollId,jdbcType=INTEGER}
   </select>
@@ -45,9 +66,10 @@
     select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
     from mg_doll
   </select>
-  <select id="queryDoll" resultMap="BaseResultMap" parameterType="com.example.mgdoll.model.MgDoll">
-    select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
-    from mg_doll
+  <select id="queryDoll" resultMap="ResPaNameResultMap" parameterType="com.example.mgdoll.model.MgDoll">
+    select d.doll_id, d.doll_name, d.doll_type, d.sale_type, d.price, d.insert_time, d.insert_by,status,m.user_pet_name
+    from mg_doll d
+    left join mg_manage_user_info m on m.user_id=d.owner_id
     where 1=1
     <if test="ownerId != null and ownerId != ''">
       and owner_id = #{ownerId,jdbcType=VARCHAR}

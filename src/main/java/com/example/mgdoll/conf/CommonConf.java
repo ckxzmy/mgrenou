@@ -2,7 +2,7 @@ package com.example.mgdoll.conf;
 
 public class CommonConf {
     public static enum SALE_TYPE{
-        money("money", 1),point("point", 2);
+        money("money", 1),point("point", 2),free("free", 2);
 
         private String text;
         private int value;
@@ -58,8 +58,10 @@ public class CommonConf {
     public static final String ON_LOGIN = "/logout.htm";
     public static final String LOGIN_OUT = "/toLogout";
     // 不验证URL anon：不验证/authc：受控制的
-    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)).*";
+    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)|(/swagger-ui.html)).*";
 
     public static final String MANAGE_FLAG = "manage";
     public static final String APP_FLAG = "app";
+    public static final String LOGIN_TYPE_MESSAGE = "message";
+    public static final String LOGIN_TYPE_PASSWORD = "password";
 }

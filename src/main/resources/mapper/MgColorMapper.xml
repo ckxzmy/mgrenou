@@ -13,6 +13,17 @@
     <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+  <resultMap id="ResResultMap" type="com.example.mgdoll.model.MgColor">
+    <id column="color_id" jdbcType="INTEGER" property="colorId" />
+    <result column="color_name" jdbcType="VARCHAR" property="colorName" />
+    <result column="color_type" jdbcType="INTEGER" property="colorType" />
+    <result column="sale_type" jdbcType="INTEGER" property="saleType" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mg_color
     where color_id = #{colorId,jdbcType=INTEGER}

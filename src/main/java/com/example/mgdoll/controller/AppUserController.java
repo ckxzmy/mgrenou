@@ -44,7 +44,7 @@ public class AppUserController {
         ApiResponse apiResponse = new ApiResponse();
 
         if(userInfo != null){
-            if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+            if(CommonConf.LOGIN_TYPE_PASSWORD.equals(userInfo.getLoginType())){
                 String password = userInfo.getUserPassword();
                 AppUserInfo existUserInfo = appUserInfoService.loginByInfo(userInfo);
                 if(existUserInfo != null){
@@ -57,7 +57,7 @@ public class AppUserController {
                         apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
                     }
                 }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
-            }else if(StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getAuthCode())){
+            }else if(CommonConf.LOGIN_TYPE_MESSAGE.equals(userInfo.getLoginType())){
                 HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.APP_FLAG);
                 if(checkResult != null){
                     if("200".equals(checkResult.get("code"))){

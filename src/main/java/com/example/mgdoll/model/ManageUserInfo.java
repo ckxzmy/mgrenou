@@ -20,6 +20,7 @@ public class ManageUserInfo {
     private String token;
 
     private String authCode;
+    private String loginType;
 
     public String getUserId() {
         return userId;
@@ -91,5 +92,13 @@ public class ManageUserInfo {
 
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
+    }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 }

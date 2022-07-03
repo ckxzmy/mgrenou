@@ -1,0 +1,1 @@
+ALTER TABLE mg_material ADD pic_url VARCHAR(200);

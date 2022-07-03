@@ -18,6 +18,7 @@ public class MgDoll {
     private BigDecimal price;
 
     private String ownerId;
+    private String painterName;
 
     private Date insertTime;
 
@@ -130,5 +131,13 @@ public class MgDoll {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPainterName() {
+        return painterName;
+    }
+
+    public void setPainterName(String painterName) {
+        this.painterName = painterName;
     }
 }
