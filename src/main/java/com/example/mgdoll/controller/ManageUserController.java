@@ -13,6 +13,8 @@ import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
 import com.example.mgdoll.util.SmsUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,6 +51,7 @@ public class ManageUserController {
     @ResponseBody
     @CrossOrigin
     @ApiOperation(value = "manage用户登录",notes = "manage用户登录")
+    @ApiImplicitParam(name = "userInfo", value = "manage用户实体", required = true, dataType = "ManageUserInfo")
     public ApiResponse login(@RequestBody ManageUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null){

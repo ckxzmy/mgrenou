@@ -10,8 +10,7 @@ import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.SmsUtil;
 import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import com.tencentcloudapi.sms.v20210111.models.SendStatus;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +35,10 @@ public class SmsNoteController {
     @ResponseBody
     @CrossOrigin
     @ApiOperation(value = "发送验证码",notes = "发送验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userMobile", value = "用户手机号", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "flag", value = "区分app还是manage", required = false, dataType = "String")
+    })
     public ApiResponse sendSms(@RequestParam("userMobile") String mobile,@RequestParam( value = "flag",required = false) String flag){
         ApiResponse apiResponse = new ApiResponse();
         if(StringUtils.isEmpty(flag)){
