@@ -10,6 +10,8 @@ import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.SmsUtil;
 import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import com.tencentcloudapi.sms.v20210111.models.SendStatus;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
+@Api
 @RestController
 @RequestMapping("/sms")
 public class SmsNoteController {
@@ -32,6 +35,7 @@ public class SmsNoteController {
     @NotCheckTokenAnn
     @ResponseBody
     @CrossOrigin
+    @ApiOperation(value = "发送验证码",notes = "发送验证码")
     public ApiResponse sendSms(@RequestParam("userMobile") String mobile,@RequestParam( value = "flag",required = false) String flag){
         ApiResponse apiResponse = new ApiResponse();
         if(StringUtils.isEmpty(flag)){

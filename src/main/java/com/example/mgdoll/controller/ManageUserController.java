@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
-@Api("获取用户信息")
+@Api("manage用户信息")
 @RestController
 @RequestMapping("/manageUser")
 public class ManageUserController {
@@ -48,7 +48,7 @@ public class ManageUserController {
     @PostMapping("/login")
     @ResponseBody
     @CrossOrigin
-    @ApiOperation(value = "用户登录",notes = "用户登录")
+    @ApiOperation(value = "manage用户登录",notes = "manage用户登录")
     public ApiResponse login(@RequestBody ManageUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null){

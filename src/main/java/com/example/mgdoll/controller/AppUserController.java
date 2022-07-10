@@ -11,6 +11,8 @@ import com.example.mgdoll.service.AppUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
+@Api("manage用户信息")
 @RestController
 @RequestMapping("/appUser")
 public class AppUserController {
@@ -40,6 +43,7 @@ public class AppUserController {
     @PostMapping("/login")
     @ResponseBody
     @CrossOrigin
+    @ApiOperation(value = "app用户登录",notes = "app用户登录")
     public ApiResponse login(@RequestBody AppUserInfo userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
 
@@ -88,6 +92,7 @@ public class AppUserController {
     @NotCheckTokenAnn
     @ResponseBody
     @CrossOrigin
+    @ApiOperation(value = "app用户注册",notes = "app用户注册")
     public ApiResponse register(@RequestBody AppUserInfo userInfo){
         ApiResponse apiResponse = new ApiResponse();
         if(userInfo != null){
@@ -102,7 +107,7 @@ public class AppUserController {
                             if("200".equals(checkResult.get("code"))){
                                 userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
                                 userInfo.setInsertTime(new Date());
-                                appUserInfoService.insert(userInfo);
+//                                appUserInfoService.insert(userInfo);
                                 apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
                                 logger.info("注册成功");
                             }else {

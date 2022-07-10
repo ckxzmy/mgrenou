@@ -97,8 +97,10 @@ public class MgPartServiceImpl implements MgPartService {
                                 if(layerId < mgMaterial.getLayerLevel()){
                                     layerId = mgMaterial.getLayerLevel();
                                 }
-                                MgColor mgColor = colorMapper.selectByPrimaryKey(mgMaterial.getColorId());
-                                mgMaterial.setColorName(mgColor.getColorName());
+                                if(mgMaterial.getColorId() != null){
+                                    MgColor mgColor = colorMapper.selectByPrimaryKey(mgMaterial.getColorId());
+                                    mgMaterial.setColorName(mgColor.getColorName());
+                                }
                             }
                         }
                         mgCategory.setMaterialList(mgMaterialList);
@@ -111,8 +113,10 @@ public class MgPartServiceImpl implements MgPartService {
                     layer.setValue(i+"");
                     layerList.add(layer);
                 }
-                MgColorGroup mgColorGroup = colorGroupMapper.selectByPrimaryKey(part.getColorGroupId());
-                part.setColorGroupName(mgColorGroup.getGroupName());
+                if(part.getColorGroupId() != null){
+                    MgColorGroup mgColorGroup = colorGroupMapper.selectByPrimaryKey(part.getColorGroupId());
+                    part.setColorGroupName(mgColorGroup.getGroupName());
+                }
                 part.setCategoryList(categoryList);
                 part.setLayerList(layerList);
             }
