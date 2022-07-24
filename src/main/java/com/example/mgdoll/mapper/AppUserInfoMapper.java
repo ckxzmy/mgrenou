@@ -1,6 +1,7 @@
 package com.example.mgdoll.mapper;
 
 import com.example.mgdoll.model.AppUserInfo;
+import com.example.mgdoll.vo.AppUserInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface AppUserInfoMapper {
     int deleteByPrimaryKey(String userId);
 
-    int insert(AppUserInfo record);
+    int insert(AppUserInfoVO record);
 
     AppUserInfo selectByPrimaryKey(String userId);
 
@@ -17,7 +18,7 @@ public interface AppUserInfoMapper {
 
     int updateByPrimaryKey(AppUserInfo record);
 
-    AppUserInfo selectByInfo(AppUserInfo userInfo);
+    AppUserInfo selectByInfo(AppUserInfoVO userInfo);
 
-    int selectExistUserByMobile(AppUserInfo userInfo);
+    int selectExistUserByMobile(AppUserInfoVO userInfo);
 }

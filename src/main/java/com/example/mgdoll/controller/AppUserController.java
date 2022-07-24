@@ -11,6 +11,7 @@ import com.example.mgdoll.service.AppUserInfoService;
 import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
+import com.example.mgdoll.vo.AppUserInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +45,7 @@ public class AppUserController {
     @ResponseBody
     @CrossOrigin
     @ApiOperation(value = "app用户登录",notes = "app用户登录")
-    public ApiResponse login(@RequestBody AppUserInfo userInfo) throws UnsupportedEncodingException {
+    public ApiResponse login(@RequestBody AppUserInfoVO userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
 
         if(userInfo != null){
@@ -93,34 +94,38 @@ public class AppUserController {
     @ResponseBody
     @CrossOrigin
     @ApiOperation(value = "app用户注册",notes = "app用户注册")
-    public ApiResponse register(@RequestBody AppUserInfo userInfo){
+    public ApiResponse register(@RequestBody AppUserInfoVO userInfo){
         ApiResponse apiResponse = new ApiResponse();
-        if(userInfo != null){
-            Integer existNum = appUserInfoService.selectExistUserByMobile(userInfo);
-            if(existNum >0){
-                apiResponse = ApiResponseUtil.getApiResponse(-101,"This mobile is exist!");
-            }else {
-                if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
-                    if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
-                        HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.APP_FLAG);
-                        if(checkResult != null){
-                            if("200".equals(checkResult.get("code"))){
-                                userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
-                                userInfo.setInsertTime(new Date());
-//                                appUserInfoService.insert(userInfo);
-                                apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
-                                logger.info("注册成功");
-                            }else {
-                                apiResponse = ApiResponseUtil.getApiResponse(-101,checkResult.get("message"));
-                                return apiResponse;
+        try {
+            if(userInfo != null){
+                Integer existNum = appUserInfoService.selectExistUserByMobile(userInfo);
+                if(existNum >0){
+                    apiResponse = ApiResponseUtil.getApiResponse(-101,"This mobile is exist!");
+                }else {
+                    if(userInfo != null && StringUtils.isNotEmpty(userInfo.getUserMobile()) && StringUtils.isNotEmpty(userInfo.getUserPassword())){
+                        if(StringUtils.isNotEmpty(userInfo.getAuthCode())){
+                            HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.APP_FLAG);
+                            if(checkResult != null){
+                                if("200".equals(checkResult.get("code"))){
+                                    userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
+                                    userInfo.setInsertTime(new Date());
+                                    appUserInfoService.insert(userInfo);
+                                    apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
+                                    logger.info("注册成功");
+                                }else {
+                                    apiResponse = ApiResponseUtil.getApiResponse(-101,checkResult.get("message"));
+                                    return apiResponse;
+                                }
                             }
+                        }else {
+                            apiResponse = ApiResponseUtil.getApiResponse(-101,"验证码为空！");
+                            return apiResponse;
                         }
-                    }else {
-                        apiResponse = ApiResponseUtil.getApiResponse(-101,"验证码为空！");
-                        return apiResponse;
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return apiResponse;
     }

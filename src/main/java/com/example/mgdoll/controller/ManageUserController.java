@@ -12,6 +12,7 @@ import com.example.mgdoll.service.MgNoteService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
 import com.example.mgdoll.util.SmsUtil;
+import com.example.mgdoll.vo.ManageUserInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -51,44 +52,48 @@ public class ManageUserController {
     @ResponseBody
     @CrossOrigin
     @ApiOperation(value = "manage用户登录",notes = "manage用户登录")
-    @ApiImplicitParam(name = "userInfo", value = "manage用户实体", required = true, dataType = "ManageUserInfo")
-    public ApiResponse login(@RequestBody ManageUserInfo userInfo) throws UnsupportedEncodingException {
+    @ApiImplicitParam(name = "userInfo", value = "manage用户实体", required = true, dataType = "ManageUserInfoVO")
+    public ApiResponse login(@RequestBody ManageUserInfoVO userInfo) throws UnsupportedEncodingException {
         ApiResponse apiResponse = new ApiResponse();
-        if(userInfo != null){
-            if(CommonConf.LOGIN_TYPE_PASSWORD.equals(userInfo.getLoginType())){
-                String password = userInfo.getUserPassword();
-                ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
-                if(existUserInfo != null){
-                    if(password.equals(existUserInfo.getUserPassword())){
-                        String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
-                        existUserInfo.setToken(token);
-                        accountTokenService.saveToken(existUserInfo, CommonConf.MANAGE_FLAG);
-                        apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
-                    }else {
-                        apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
-                    }
-                }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
-            }else if(CommonConf.LOGIN_TYPE_MESSAGE.equals(userInfo.getLoginType())){
-                HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.MANAGE_FLAG);
-                if(checkResult != null){
-                    if("200".equals(checkResult.get("code"))){
-                        ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
-                        if(existUserInfo != null){
+        try {
+            if(userInfo != null){
+                if(CommonConf.LOGIN_TYPE_PASSWORD.equals(userInfo.getLoginType())){
+                    String password = userInfo.getUserPassword();
+                    ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
+                    if(existUserInfo != null){
+                        if(password.equals(existUserInfo.getUserPassword())){
                             String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
                             existUserInfo.setToken(token);
-                            accountTokenService.saveToken(existUserInfo,CommonConf.MANAGE_FLAG);
+                            accountTokenService.saveToken(existUserInfo, CommonConf.MANAGE_FLAG);
                             apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
-                        }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
-                    }else {
-                        apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
-                        return apiResponse;
+                        }else {
+                            apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
+                        }
+                    }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+                }else if(CommonConf.LOGIN_TYPE_MESSAGE.equals(userInfo.getLoginType())){
+                    HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.MANAGE_FLAG);
+                    if(checkResult != null){
+                        if("200".equals(checkResult.get("code"))){
+                            ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
+                            if(existUserInfo != null){
+                                String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                                existUserInfo.setToken(token);
+                                accountTokenService.saveToken(existUserInfo,CommonConf.MANAGE_FLAG);
+                                apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
+                            }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+                        }else {
+                            apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
+                            return apiResponse;
+                        }
                     }
+                }else {
+                    apiResponse = ApiResponseUtil.getApiResponse(-101,"请正确登录！");
+                    return apiResponse;
                 }
-            }else {
-                apiResponse = ApiResponseUtil.getApiResponse(-101,"请正确登录！");
-                return apiResponse;
-            }
 
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         return apiResponse;

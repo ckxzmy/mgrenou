@@ -10,6 +10,13 @@
     <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
   </resultMap>
+  <resultMap id="ResResultMap" type="com.example.mgdoll.model.ManageUserInfo">
+    <result column="user_mobile" jdbcType="VARCHAR" property="userMobile" />
+    <result column="user_pet_name" jdbcType="VARCHAR" property="userPetName" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from mg_manage_user_info
     where user_id = #{userId,jdbcType=VARCHAR}
@@ -43,7 +50,7 @@
     insert_time
     from mg_manage_user_info
   </select>
-    <select id="selectByInfo" parameterType="com.example.mgdoll.model.ManageUserInfo" resultMap="BaseResultMap">
+    <select id="selectByInfo" parameterType="com.example.mgdoll.vo.ManageUserInfoVO" resultMap="ResResultMap">
       select user_id, user_mobile, user_password, user_pet_name, user_email,
     insert_by, insert_time
     from mg_manage_user_info

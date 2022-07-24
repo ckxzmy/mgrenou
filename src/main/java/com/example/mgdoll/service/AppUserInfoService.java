@@ -1,11 +1,12 @@
 package com.example.mgdoll.service;
 
 import com.example.mgdoll.model.AppUserInfo;
+import com.example.mgdoll.vo.AppUserInfoVO;
 
 public interface AppUserInfoService {
-    AppUserInfo loginByInfo(AppUserInfo userInfo);
+    AppUserInfo loginByInfo(AppUserInfoVO userInfo);
 
-    Integer selectExistUserByMobile(AppUserInfo userInfo);
+    Integer selectExistUserByMobile(AppUserInfoVO userInfo);
 
-    void insert(AppUserInfo userInfo);
+    void insert(AppUserInfoVO userInfo);
 }

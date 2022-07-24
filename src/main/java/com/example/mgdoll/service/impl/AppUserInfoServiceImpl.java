@@ -3,6 +3,7 @@ package com.example.mgdoll.service.impl;
 import com.example.mgdoll.mapper.AppUserInfoMapper;
 import com.example.mgdoll.model.AppUserInfo;
 import com.example.mgdoll.service.AppUserInfoService;
+import com.example.mgdoll.vo.AppUserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +14,19 @@ public class AppUserInfoServiceImpl implements AppUserInfoService {
     private AppUserInfoMapper appUserInfoMapper;
 
     @Override
-    public AppUserInfo loginByInfo(AppUserInfo userInfo) {
-        userInfo = appUserInfoMapper.selectByInfo(userInfo);
-        return userInfo;
+    public AppUserInfo loginByInfo(AppUserInfoVO userInfo) {
+        AppUserInfo user = appUserInfoMapper.selectByInfo(userInfo);
+        return user;
     }
 
     @Override
-    public Integer selectExistUserByMobile(AppUserInfo userInfo) {
+    public Integer selectExistUserByMobile(AppUserInfoVO userInfo) {
         int number = appUserInfoMapper.selectExistUserByMobile(userInfo);
         return number;
     }
 
     @Override
-    public void insert(AppUserInfo userInfo) {
+    public void insert(AppUserInfoVO userInfo) {
         appUserInfoMapper.insert(userInfo);
     }
 }

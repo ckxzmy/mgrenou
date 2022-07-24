@@ -41,38 +41,42 @@ public class SmsNoteController {
     })
     public ApiResponse sendSms(@RequestParam("userMobile") String mobile,@RequestParam( value = "flag",required = false) String flag){
         ApiResponse apiResponse = new ApiResponse();
-        if(StringUtils.isEmpty(flag)){
-            apiResponse = ApiResponseUtil.getApiResponse(-101,"系统出错，请联系管理员！");
-            return apiResponse;
-        }
-        if(StringUtils.isNotEmpty(mobile)){
-            Random random = new Random();
-            try {
-                int randomNum = random.nextInt(1000000);
-                String codeContext = String.format("%06d", randomNum);
-                SendSmsResponse res = SmsUtil.sendSmsP(mobile,codeContext);
-                SendStatus[] sendStatus = new SendStatus[0];
-                if(res != null){
-                    sendStatus = res.getSendStatusSet();
-                }
-                if(sendStatus != null && sendStatus.length>0){
-                    if("Ok".equals(sendStatus[0].getCode())){
-                        MgNoteInfo mgNoteInfo = new MgNoteInfo();
-                        mgNoteInfo.setNoteValue(codeContext);
-                        mgNoteInfo.setSendStatus("success");
-                        mgNoteInfo.setInsertTime(new Date());
-                        mgNoteInfo.setResContents(SendSmsResponse.toJsonString(res));
-                        mgNoteInfo.setUserMobile(mobile);
-                        mgNoteInfo.setUserFlag(flag);
-                        mgNoteService.insert(mgNoteInfo);
-                        apiResponse = ApiResponseUtil.getApiResponse(0,"验证码发送成功！");
-                    }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
-                }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            if(StringUtils.isEmpty(flag)){
+                apiResponse = ApiResponseUtil.getApiResponse(-101,"系统出错，请联系管理员！");
+                return apiResponse;
             }
+            if(StringUtils.isNotEmpty(mobile)){
+                Random random = new Random();
+                try {
+                    int randomNum = random.nextInt(1000000);
+                    String codeContext = String.format("%06d", randomNum);
+                    SendSmsResponse res = SmsUtil.sendSmsP(mobile,codeContext);
+                    SendStatus[] sendStatus = new SendStatus[0];
+                    if(res != null){
+                        sendStatus = res.getSendStatusSet();
+                    }
+                    if(sendStatus != null && sendStatus.length>0){
+                        if("Ok".equals(sendStatus[0].getCode())){
+                            MgNoteInfo mgNoteInfo = new MgNoteInfo();
+                            mgNoteInfo.setNoteValue(codeContext);
+                            mgNoteInfo.setSendStatus("success");
+                            mgNoteInfo.setInsertTime(new Date());
+                            mgNoteInfo.setResContents(SendSmsResponse.toJsonString(res));
+                            mgNoteInfo.setUserMobile(mobile);
+                            mgNoteInfo.setUserFlag(flag);
+                            mgNoteService.insert(mgNoteInfo);
+                            apiResponse = ApiResponseUtil.getApiResponse(0,"验证码发送成功！");
+                        }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
+                    }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-        }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
+            }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return apiResponse;
     }
 }
