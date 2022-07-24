@@ -57,6 +57,8 @@ public class AppUserController {
                         String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
                         existUserInfo.setToken(token);
                         accountTokenService.saveToken(existUserInfo, CommonConf.APP_FLAG);
+                        existUserInfo.setUserId(null);
+                        existUserInfo.setUserPassword(null);
                         apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
                     }else {
                         apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
@@ -71,6 +73,8 @@ public class AppUserController {
                             String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
                             existUserInfo.setToken(token);
                             accountTokenService.saveToken(existUserInfo, CommonConf.APP_FLAG);
+                            existUserInfo.setUserId(null);
+                            existUserInfo.setUserPassword(null);
                             apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
                         }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
                     }else {
@@ -110,6 +114,8 @@ public class AppUserController {
                                     userInfo.setUserId(UUID.randomUUID().toString().replace("-",""));
                                     userInfo.setInsertTime(new Date());
                                     appUserInfoService.insert(userInfo);
+                                    userInfo.setUserId(null);
+                                    userInfo.setUserPassword(null);
                                     apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
                                     logger.info("注册成功");
                                 }else {

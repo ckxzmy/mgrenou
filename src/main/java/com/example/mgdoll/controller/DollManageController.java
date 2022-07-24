@@ -10,6 +10,7 @@ import com.example.mgdoll.service.MgDollService;
 import com.example.mgdoll.service.MgPartService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
+import io.swagger.annotations.ApiImplicitParam;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,6 +85,7 @@ public class DollManageController {
 
     @GetMapping("/queryDoll")
     @CrossOrigin
+    @ApiImplicitParam(name = "dollId", value = "可用10", required = true, dataType = "String")
     public ApiResponse queryDoll(HttpServletRequest request,@RequestParam String dollId){
         ApiResponse apiResponse = new ApiResponse();
         try {

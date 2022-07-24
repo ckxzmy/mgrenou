@@ -50,7 +50,7 @@
     insert_time
     from mg_manage_user_info
   </select>
-    <select id="selectByInfo" parameterType="com.example.mgdoll.vo.ManageUserInfoVO" resultMap="ResResultMap">
+    <select id="selectByInfo" parameterType="com.example.mgdoll.vo.ManageUserInfoVO" resultMap="BaseResultMap">
       select user_id, user_mobile, user_password, user_pet_name, user_email,
     insert_by, insert_time
     from mg_manage_user_info
