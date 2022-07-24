@@ -41,7 +41,7 @@ public class SwaggerConfig {
         clientIdTicket.name("access_token").description("token令牌")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
-                .required(false).build(); //设置false，表示clientId参数 非必填,可传可不传！
+                .required(false).build(); //设置false，表示非必填,可传可不传！
         pars.add(clientIdTicket.build());
         return pars;
     }
