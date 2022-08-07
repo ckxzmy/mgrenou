@@ -66,7 +66,7 @@ public class SmsNoteController {
                             mgNoteInfo.setUserMobile(mobile);
                             mgNoteInfo.setUserFlag(flag);
                             mgNoteService.insert(mgNoteInfo);
-                            apiResponse = ApiResponseUtil.getApiResponse(0,"验证码发送成功！");
+                            apiResponse = ApiResponseUtil.getApiResponse(200,"验证码发送成功！");
                         }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
                     }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.FAIL);
                 } catch (Exception e) {
