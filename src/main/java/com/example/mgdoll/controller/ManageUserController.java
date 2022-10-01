@@ -71,7 +71,7 @@ public class ManageUserController {
                         }else {
                             apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
                         }
-                    }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+                    }else apiResponse = ApiResponseUtil.getApiResponse(-101,"该账号未注册！");
                 }else if(CommonConf.LOGIN_TYPE_MESSAGE.equals(userInfo.getLoginType())){
                     HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.MANAGE_FLAG);
                     if(checkResult != null){
@@ -84,7 +84,7 @@ public class ManageUserController {
                                 existUserInfo.setUserId(null);
                                 existUserInfo.setUserPassword(null);
                                 apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
-                            }else apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.LOGIN_FAIL);
+                            }else apiResponse = ApiResponseUtil.getApiResponse(-101,"该账号未注册！");
                         }else {
                             apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
                             return apiResponse;
