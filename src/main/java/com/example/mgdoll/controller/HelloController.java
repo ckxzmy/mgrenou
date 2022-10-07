@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HelloController {
 
-    @RequestMapping("/sayHello")
-    @CrossOrigin
-    public String sayHello(){
-
-        return "hello";
-    }
+//    @RequestMapping("/sayHello")
+//    @CrossOrigin
+//    public String sayHello(){
+//
+//        return "hello";
+//    }
 }
