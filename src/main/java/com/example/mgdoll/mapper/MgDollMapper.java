@@ -17,5 +17,7 @@ public interface MgDollMapper {
 
     int updateByPrimaryKey(MgDoll record);
 
-    List<MgDoll> queryDoll(MgDoll mgDoll);
+    List<MgDoll> queryByOwnerId(MgDoll mgDoll);
+
+    List<MgDoll> queryDollByCondition(MgDoll mgDoll);
 }

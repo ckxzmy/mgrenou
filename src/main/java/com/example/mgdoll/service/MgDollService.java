@@ -12,4 +12,6 @@ public interface MgDollService {
     int update(MgDoll doll);
 
     List<MgDoll> queryByOwnerId(MgDoll mgDoll);
+
+    List<MgDoll> queryDollByCondition(MgDoll mgDoll);
 }

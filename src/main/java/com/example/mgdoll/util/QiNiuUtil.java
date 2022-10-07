@@ -16,7 +16,7 @@ public class QiNiuUtil {
     private String accessKey;
     @Value("${qiniu.accessSecretKey}")
     private String accessSecretKey;
-    @Value("{qiniu.bucket}")
+    @Value("${qiniu.bucket}")
     private String bucket;
 
     public String upToken(){

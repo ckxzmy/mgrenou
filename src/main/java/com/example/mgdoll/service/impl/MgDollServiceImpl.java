@@ -30,7 +30,13 @@ public class MgDollServiceImpl implements MgDollService {
 
     @Override
     public List<MgDoll> queryByOwnerId(MgDoll mgDoll) {
-        List<MgDoll> list = mgDollMapper.queryDoll(mgDoll);
+        List<MgDoll> list = mgDollMapper.queryByOwnerId(mgDoll);
+        return list;
+    }
+
+    @Override
+    public List<MgDoll> queryDollByCondition(MgDoll mgDoll) {
+        List<MgDoll> list = mgDollMapper.queryDollByCondition(mgDoll);
         return list;
     }
 }

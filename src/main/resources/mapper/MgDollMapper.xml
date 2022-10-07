@@ -66,7 +66,7 @@
     select doll_id, doll_name, doll_type, sale_type, price, owner_id, insert_time, insert_by,status
     from mg_doll
   </select>
-  <select id="queryDoll" resultMap="ResPaNameResultMap" parameterType="com.example.mgdoll.model.MgDoll">
+  <select id="queryByOwnerId" resultMap="ResPaNameResultMap" parameterType="com.example.mgdoll.model.MgDoll">
     select d.doll_id, d.doll_name, d.doll_type, d.sale_type, d.price, d.insert_time, d.insert_by,status,m.user_pet_name
     from mg_doll d
     left join mg_manage_user_info m on m.user_id=d.owner_id
@@ -74,5 +74,11 @@
     <if test="ownerId != null and ownerId != ''">
       and owner_id = #{ownerId,jdbcType=VARCHAR}
     </if>
+  </select>
+  <select id="queryDollByCondition" resultMap="ResPaNameResultMap" parameterType="com.example.mgdoll.model.MgDoll">
+    select d.doll_id, d.doll_name, d.doll_type, d.sale_type, d.price, d.insert_time, d.insert_by,status,m.user_pet_name
+    from mg_doll d
+    left join mg_manage_user_info m on m.user_id=d.owner_id
+    where 1=1
   </select>
 </mapper>
