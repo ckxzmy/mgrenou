@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/configDate")
-public class ConfigDateController {
-    private Logger logger = LoggerFactory.getLogger(ConfigDateController.class);
+public class ConfigDataController {
+    private Logger logger = LoggerFactory.getLogger(ConfigDataController.class);
 
     final String TYPE_TEXT="TEXT";
     final String TYPE_PIC="PIC";
