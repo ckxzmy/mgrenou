@@ -41,6 +41,36 @@ public class CommonConf {
         }
     }
 
+    public static enum WATER_STATUS{
+        //-1.删除 0.正常 1.审核中(待审) 2.审核不通过
+        delete("删除", -1),valid("正常", 0),pending("审核中", 1),no_pass("审核不通过", 1);
+
+        private String text;
+        private int value;
+
+        WATER_STATUS(String text, int value) {
+            this.text = text;
+            this.value = value;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static String getName(Integer value){
+            for(WATER_STATUS s:WATER_STATUS.values()){
+                if(s.getValue() == value){
+                    return s.text;
+                }
+            }
+            return null;
+        }
+    }
+
     public static final String SUCCESS = "SUCCESS";
     public static final String ERROR = "ERROR";
     public static final String FIALL = "FIALL";
