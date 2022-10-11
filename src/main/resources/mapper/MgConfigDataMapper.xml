@@ -39,4 +39,9 @@
     select config_id, config_name, config_type, config_value, insert_by, insert_time
     from mg_config_data
   </select>
+  <select id="selectByConfigName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select config_id, config_name, config_type, config_value, insert_by, insert_time
+    from mg_config_data
+    where config_name = #{configName,jdbcType=VARCHAR}
+  </select>
 </mapper>

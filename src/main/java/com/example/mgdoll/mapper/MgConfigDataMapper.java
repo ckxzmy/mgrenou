@@ -16,4 +16,6 @@ public interface MgConfigDataMapper {
     List<MgConfigData> selectAll();
 
     int updateByPrimaryKey(MgConfigData record);
+
+    MgConfigData selectByConfigName(String configName);
 }

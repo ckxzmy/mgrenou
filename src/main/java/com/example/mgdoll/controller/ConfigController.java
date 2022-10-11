@@ -1,15 +1,15 @@
 package com.example.mgdoll.controller;
 
 import com.example.mgdoll.model.ApiResponse;
+import com.example.mgdoll.model.MgConfigData;
+import com.example.mgdoll.service.ConfigService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.QiNiuUtil;
+import io.swagger.annotations.ApiImplicitParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +20,8 @@ public class ConfigController {
 
     @Autowired
     private QiNiuUtil qiNiuUtil;
+    @Autowired
+    private ConfigService configService;
 
     @GetMapping("/getUpToken")
     @CrossOrigin
@@ -28,4 +30,19 @@ public class ConfigController {
         String upToken = qiNiuUtil.upToken();
         return apiResponse = ApiResponseUtil.getApiResponse(upToken);
     }
+
+    @GetMapping("/getConfigData")
+    @CrossOrigin
+    @ApiImplicitParam(name = "configName", value = "name", required = true, dataType = "String")
+    public ApiResponse getConfigData(HttpServletRequest request, @RequestParam String configName){
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            MgConfigData mgConfigData = configService.selectByConfigName(configName);
+            apiResponse = ApiResponseUtil.getApiResponse(mgConfigData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return apiResponse;
+    }
+
 }

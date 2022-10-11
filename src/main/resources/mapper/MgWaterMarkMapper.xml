@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.MgWaterMarkMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.MgWaterMark">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="water_url" jdbcType="VARCHAR" property="waterUrl" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <resultMap id="QueryResultMap" type="com.example.mgdoll.model.MgWaterMark">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="water_url" jdbcType="VARCHAR" property="waterUrl" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="user_pet_name" jdbcType="VARCHAR" property="userPetName" />
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mg_water_mark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgWaterMark">
+    insert into mg_water_mark (user_id, water_url,
+      status, create_by, create_time
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{waterUrl,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgWaterMark">
+    update mg_water_mark
+    set user_id = #{userId,jdbcType=VARCHAR},
+      water_url = #{waterUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, water_url, status, create_by, create_time
+    from mg_water_mark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, water_url, status, create_by, create_time
+    from mg_water_mark
+  </select>
+  <select id="queryWaterListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, user_id, water_url, status, create_by, create_time
+    from mg_water_mark
+    where user_id = #{user_id,jdbcType=VARCHAR}
+  </select>
+  <update id="updateStatus" parameterType="com.example.mgdoll.model.MgWaterMark">
+    update mg_water_mark
+    set
+        status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryWaterListByStatus" parameterType="java.lang.Integer" resultMap="QueryResultMap">
+    select t.*,a.user_pet_name from mg_water_mark t
+      LEFT JOIN mg_app_user_info a on a.user_id=t.user_id
+    where t.status = #{status,jdbcType=INTEGER}
+  </select>
+</mapper>
