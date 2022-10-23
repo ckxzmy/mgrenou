@@ -11,7 +11,7 @@ public enum ApiResponseEnum {
     FAIL(-101,"请求失败"),
     LOGIN_FAIL(-101,"登陆失败"),
     AUTH_ERROR(-101,"登录失败"),
-    TOKEN_EXPIRE(-101,"Token过期"),
+    TOKEN_EXPIRE(10000,"Token过期"),
     TOKEN_FAIL(-101,"Token不存在"),
     SESSION_USER_ERROR(-101,"User未获取到");
 

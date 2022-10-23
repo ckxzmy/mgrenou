@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.MgSuitDetailMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.MgSuitDetail">
+    <id column="detail_id" jdbcType="INTEGER" property="detailId" />
+    <result column="suit_id" jdbcType="INTEGER" property="suitId" />
+    <result column="detail_type" jdbcType="INTEGER" property="detailType" />
+    <result column="detail_content_id" jdbcType="INTEGER" property="detailContentId" />
+    <result column="content_type" jdbcType="INTEGER" property="contentType" />
+    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mg_suit_detail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgSuitDetail" useGeneratedKeys="true" keyProperty="detailId">
+    insert into mg_suit_detail (suit_id, detail_type,
+      detail_content_id, content_type, insert_time
+      )
+    values (#{suitId,jdbcType=INTEGER}, #{detailType,jdbcType=INTEGER},
+      #{detailContentId,jdbcType=INTEGER}, #{contentType,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.MgSuitDetail">
+    update mg_suit_detail
+    set suit_id = #{suitId,jdbcType=INTEGER},
+      detail_type = #{detailType,jdbcType=INTEGER},
+      detail_content_id = #{detailContentId,jdbcType=INTEGER},
+      content_type = #{contentType,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP}
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select detail_id, suit_id, detail_type, detail_content_id, content_type, insert_time
+    from mg_suit_detail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select detail_id, suit_id, detail_type, detail_content_id, content_type, insert_time
+    from mg_suit_detail
+  </select>
+</mapper>

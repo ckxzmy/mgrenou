@@ -12,8 +12,9 @@ public class SuitServiceImpl implements SuitService {
     private MgSuitMapper suitMapper;
 
     @Override
-    public void insert(MgSuit mgSuit) {
-        suitMapper.insert(mgSuit);
+    public int insert(MgSuit mgSuit) {
+        int num = suitMapper.insert(mgSuit);
+        return num;
     }
 
     @Override

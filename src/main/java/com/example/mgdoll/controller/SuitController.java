@@ -3,6 +3,7 @@ package com.example.mgdoll.controller;
 import com.example.mgdoll.model.ApiResponse;
 import com.example.mgdoll.model.MgSuit;
 import com.example.mgdoll.service.AccountTokenService;
+import com.example.mgdoll.service.SuitDetailService;
 import com.example.mgdoll.service.SuitService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/suit")
@@ -22,6 +24,8 @@ public class SuitController {
     private SuitService suitService;
     @Autowired
     private AccountTokenService accountTokenService;
+    @Autowired
+    private SuitDetailService suitDetailService;
 
     @PostMapping("/insert")
     @ResponseBody
@@ -33,10 +37,18 @@ public class SuitController {
         String userId = JwtUtil.getUserId(token);
         if(mgSuit != null){
             if(mgSuit.getSuitId() == null){
+                mgSuit.setOwnerId(userId);
                 mgSuit.setInsertBy(userId);
-                suitService.insert(mgSuit);
+                mgSuit.setInsertTime(new Date());
+                int num = suitService.insert(mgSuit);
+                if(num>0 && mgSuit.getMgSuitDetails() != null && mgSuit.getMgSuitDetails().size()>0){
+                    suitDetailService.insertDetailBySuitId(mgSuit.getMgSuitDetails(),token,mgSuit);
+                }
             }else {
                 suitService.update(mgSuit);
+                if(mgSuit.getMgSuitDetails() != null && mgSuit.getMgSuitDetails().size()>0){
+                    suitDetailService.insertORUpateDetailBySuitId(mgSuit.getMgSuitDetails(),token,mgSuit);
+                }
             }
         }
 

@@ -1,7 +1,10 @@
 package com.example.mgdoll.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class MgSuit {
     private Integer suitId;
@@ -22,6 +25,9 @@ public class MgSuit {
 
     private Integer status;
 
+    private List<MgSuitDetail> mgSuitDetails;
+
+    @ApiModelProperty(required = true,value = "新增时不填,修改时必填")
     public Integer getSuitId() {
         return suitId;
     }
@@ -38,6 +44,7 @@ public class MgSuit {
         this.suitName = suitName == null ? null : suitName.trim();
     }
 
+    @ApiModelProperty(value = "套装销售类型，")
     public Integer getSuitType() {
         return suitType;
     }
@@ -46,6 +53,7 @@ public class MgSuit {
         this.suitType = suitType;
     }
 
+    @ApiModelProperty(value = "售卖货币类型，1余额2积分")
     public Integer getSaleType() {
         return saleType;
     }
@@ -54,6 +62,7 @@ public class MgSuit {
         this.saleType = saleType;
     }
 
+    @ApiModelProperty(value = "价格")
     public BigDecimal getPrice() {
         return price;
     }
@@ -86,11 +95,20 @@ public class MgSuit {
         this.insertBy = insertBy == null ? null : insertBy.trim();
     }
 
+    @ApiModelProperty(value = "-1.删除 0.正常 1.上架 2.下架")
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<MgSuitDetail> getMgSuitDetails() {
+        return mgSuitDetails;
+    }
+
+    public void setMgSuitDetails(List<MgSuitDetail> mgSuitDetails) {
+        this.mgSuitDetails = mgSuitDetails;
     }
 }
