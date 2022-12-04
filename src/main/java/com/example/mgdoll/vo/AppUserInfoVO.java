@@ -3,6 +3,7 @@ package com.example.mgdoll.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @ApiModel
@@ -25,6 +26,9 @@ public class AppUserInfoVO {
 
     private String authCode;
     private String loginType;
+    private Integer status;
+    private BigDecimal balance;
+    private Integer point;
 
     public String getUserId() {
         return userId;
@@ -107,5 +111,29 @@ public class AppUserInfoVO {
 
     public void setLoginType(String loginType) {
         this.loginType = loginType;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance != null ? balance : new BigDecimal(0);
+    }
+
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
+        this.point = point != null ? point : 0;
     }
 }

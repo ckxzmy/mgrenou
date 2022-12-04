@@ -43,7 +43,7 @@ public class SmsNoteController {
         ApiResponse apiResponse = new ApiResponse();
         try {
             if(StringUtils.isEmpty(flag)){
-                apiResponse = ApiResponseUtil.getApiResponse(-101,"系统出错，请联系管理员！");
+                apiResponse = ApiResponseUtil.getApiResponse(-1,"系统出错，请联系管理员！");
                 return apiResponse;
             }
             if(StringUtils.isNotEmpty(mobile)){

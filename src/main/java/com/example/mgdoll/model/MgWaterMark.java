@@ -29,7 +29,7 @@ public class MgWaterMark {
         this.id = id;
     }
 
-    @ApiModelProperty(required = true,value = "新增时必填,审核时必填")
+//    @ApiModelProperty(required = true,value = "新增时必填,审核时必填")
     public String getUserId() {
         return userId;
     }

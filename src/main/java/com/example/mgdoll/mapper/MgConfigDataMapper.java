@@ -18,4 +18,6 @@ public interface MgConfigDataMapper {
     int updateByPrimaryKey(MgConfigData record);
 
     MgConfigData selectByConfigName(String configName);
+
+    void updateDataByConfigName(MgConfigData configData);
 }

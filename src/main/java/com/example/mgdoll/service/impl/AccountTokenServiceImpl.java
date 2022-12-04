@@ -59,6 +59,31 @@ public class AccountTokenServiceImpl implements AccountTokenService {
         accountTokenMapper.updateToken(phone,token,date);
     }
 
+    @Override
+    public void updateTokenTest(String s, Date date) {
+        accountTokenMapper.updateTokenTest(s,date);
+    }
+
+    @Override
+    public boolean checkManage(HttpServletRequest request) {
+        String token = request.getHeader("access_token");
+        String flag = JwtUtil.getRoleFlag(token);
+        if(CommonConf.MANAGE_ACTION.equals(flag)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkAPP(HttpServletRequest request) {
+        String token = request.getHeader("access_token");
+        String flag = JwtUtil.getRoleFlag(token);
+        if(CommonConf.APP_ACTION.equals(flag)){
+            return true;
+        }
+        return false;
+    }
+
     private Date getLastTimeByPhone(String phone, String token) {
         List<Date> datas = accountTokenMapper.getLastTimeByPhone(phone,token);
         if(datas != null && datas.size()>0){

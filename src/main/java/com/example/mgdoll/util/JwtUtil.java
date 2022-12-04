@@ -83,12 +83,26 @@ public class JwtUtil {
     }
 
     /**
+     * 获取登陆用户ID
+     * @param token
+     * @return
+     */
+    public static String getRoleFlag(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("roleFlag").asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /**
      * 生成签名,15min后过期
      *
      * @param username 用户名
      * @return 加密的token
      */
-    public static String sign(String username,String userId) throws UnsupportedEncodingException {
+    public static String sign(String username,String userId,String flag) throws UnsupportedEncodingException {
         //            过期时间
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
 //            私钥及加密算法
@@ -104,7 +118,8 @@ public class JwtUtil {
                 .withHeader(header)
                 .withClaim("userMobile", username)
                 .withClaim("userId",userId)
-                .withClaim("uuId", uuid)
+                .withClaim("uuId", uuid.startsWith("5",18))
+                .withClaim("roleFlag", flag)
 //                .withExpiresAt(date)
                 .sign(algorithm);
     }

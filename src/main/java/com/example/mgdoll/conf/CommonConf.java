@@ -89,10 +89,12 @@ public class CommonConf {
     public static final String LOGIN_OUT = "/toLogout";
     // 不验证URL anon：不验证/authc：受控制的
 //    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)).*";//正式版 swagger不可用
-    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)|(swagger-ui.html)|(swagger-resources)|(webjars)|(v2)|(register)).*";
+    public static final String NO_INTERCEPTOR_PATH =".*/((.css)|(.js)|(images)|(login)|(anon)|(swagger-ui.html)|(swagger-resources)|(webjars)|(v2)|(register)|(error)).*";
 
     public static final String MANAGE_FLAG = "manage";
     public static final String APP_FLAG = "app";
+    public static final String MANAGE_ACTION = "MANAGE_ACTION";
+    public static final String APP_ACTION = "APP_ACTION";
     public static final String LOGIN_TYPE_MESSAGE = "message";
     public static final String LOGIN_TYPE_PASSWORD = "password";
 }

@@ -1,5 +1,6 @@
 package com.example.mgdoll.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class AppUserInfo {
@@ -21,6 +22,12 @@ public class AppUserInfo {
 
     private String authCode;
     private String loginType;
+    private Integer status;
+
+    private BigDecimal balance;
+    private Integer point;
+    private Integer loginNum;
+    private Date lastLoginTime;
 
     public String getUserId() {
         return userId;
@@ -100,5 +107,45 @@ public class AppUserInfo {
 
     public void setLoginType(String loginType) {
         this.loginType = loginType;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status != null ? status : 0;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
+
+    public Integer getLoginNum() {
+        return loginNum;
+    }
+
+    public void setLoginNum(Integer loginNum) {
+        this.loginNum = loginNum;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }

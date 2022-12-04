@@ -62,36 +62,36 @@ public class ManageUserController {
                     ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
                     if(existUserInfo != null){
                         if(password.equals(existUserInfo.getUserPassword())){
-                            String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                            String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()),CommonConf.MANAGE_ACTION);
                             existUserInfo.setToken(token);
                             accountTokenService.saveToken(existUserInfo, CommonConf.MANAGE_FLAG);
                             existUserInfo.setUserId(null);
                             existUserInfo.setUserPassword(null);
                             apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
                         }else {
-                            apiResponse = ApiResponseUtil.getApiResponse(-101,"密码不正确！");
+                            apiResponse = ApiResponseUtil.getApiResponse(-1,"密码不正确！");
                         }
-                    }else apiResponse = ApiResponseUtil.getApiResponse(-101,"该账号未注册！");
+                    }else apiResponse = ApiResponseUtil.getApiResponse(-1,"该账号未注册！");
                 }else if(CommonConf.LOGIN_TYPE_MESSAGE.equals(userInfo.getLoginType())){
                     HashMap<String,String> checkResult = mgNoteService.checkAuthCode(userInfo.getUserMobile(),userInfo.getAuthCode(),CommonConf.MANAGE_FLAG);
                     if(checkResult != null){
                         if("200".equals(checkResult.get("code"))){
                             ManageUserInfo existUserInfo = manageUserInfoService.loginByInfo(userInfo);
                             if(existUserInfo != null){
-                                String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()));
+                                String token = JwtUtil.sign(existUserInfo.getUserMobile(),String.valueOf(existUserInfo.getUserId()),CommonConf.MANAGE_ACTION);
                                 existUserInfo.setToken(token);
                                 accountTokenService.saveToken(existUserInfo,CommonConf.MANAGE_FLAG);
                                 existUserInfo.setUserId(null);
                                 existUserInfo.setUserPassword(null);
                                 apiResponse = ApiResponseUtil.getApiResponse(existUserInfo);
-                            }else apiResponse = ApiResponseUtil.getApiResponse(-101,"该账号未注册！");
+                            }else apiResponse = ApiResponseUtil.getApiResponse(-1,"该账号未注册！");
                         }else {
                             apiResponse = ApiResponseUtil.getApiResponse(-1,checkResult.get("message"));
                             return apiResponse;
                         }
                     }
                 }else {
-                    apiResponse = ApiResponseUtil.getApiResponse(-101,"请正确登录！");
+                    apiResponse = ApiResponseUtil.getApiResponse(-1,"请正确登录！");
                     return apiResponse;
                 }
 

@@ -22,4 +22,6 @@ public interface AccountTokenMapper {
     List<Date> getLastTimeByPhone(@Param("phone") String phone, @Param("token") String token);
 
     void updateToken(@Param("phone") String phone, @Param("token") String token, @Param("date") Date date);
+
+    void updateTokenTest(@Param("phone") String phone, @Param("date") Date date);
 }

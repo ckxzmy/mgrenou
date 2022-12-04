@@ -13,11 +13,11 @@
     delete from mg_config_data
     where config_id = #{configId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.mgdoll.model.MgConfigData">
-    insert into mg_config_data (config_id, config_name, config_type, 
+  <insert id="insert" parameterType="com.example.mgdoll.model.MgConfigData" useGeneratedKeys="true" keyProperty="configId">
+    insert into mg_config_data (config_name, config_type,
       config_value, insert_by, insert_time
       )
-    values (#{configId,jdbcType=INTEGER}, #{configName,jdbcType=VARCHAR}, #{configType,jdbcType=INTEGER}, 
+    values (#{configName,jdbcType=VARCHAR}, #{configType,jdbcType=INTEGER},
       #{configValue,jdbcType=VARCHAR}, #{insertBy,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -44,4 +44,12 @@
     from mg_config_data
     where config_name = #{configName,jdbcType=VARCHAR}
   </select>
+  <update id="updateDataByConfigName">
+    update mg_config_data
+    set
+        config_value = #{configValue,jdbcType=VARCHAR},
+        insert_by = #{insertBy,jdbcType=VARCHAR},
+        insert_time = #{insertTime,jdbcType=TIMESTAMP}
+    where config_name = #{configName,jdbcType=VARCHAR}
+  </update>
 </mapper>

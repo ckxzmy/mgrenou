@@ -17,4 +17,23 @@ public class ConfigServiceImpl implements ConfigService {
         MgConfigData entity = mgConfigDataMapper.selectByConfigName(configName);
         return entity;
     }
+
+    @Override
+    public Integer selectExist(MgConfigData configData) {
+        MgConfigData entity = mgConfigDataMapper.selectByConfigName(configData.getConfigName());
+        if(entity != null){
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public void updateData(MgConfigData configData) {
+        mgConfigDataMapper.updateDataByConfigName(configData);
+    }
+
+    @Override
+    public void insert(MgConfigData configData) {
+        mgConfigDataMapper.insert(configData);
+    }
 }

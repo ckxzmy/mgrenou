@@ -7,13 +7,20 @@
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
     <result column="user_pet_name" jdbcType="VARCHAR" property="userPetName" />
     <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
   </resultMap>
   <resultMap id="ResResultMap" type="com.example.mgdoll.model.AppUserInfo">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="user_mobile" jdbcType="VARCHAR" property="userMobile" />
     <result column="user_pet_name" jdbcType="VARCHAR" property="userPetName" />
     <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="point" jdbcType="INTEGER" property="point" />
+    <result column="login_num" jdbcType="INTEGER" property="loginNum" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="insert_by" jdbcType="VARCHAR" property="insertBy" />
     <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
   </resultMap>
@@ -23,35 +30,36 @@
   </delete>
   <insert id="insert" parameterType="com.example.mgdoll.vo.AppUserInfoVO">
     insert into mg_app_user_info (user_id, user_mobile, user_password, 
-      user_pet_name, user_email, insert_by, 
+      user_pet_name, user_email, status, insert_by,
       insert_time)
     values (#{userId,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userPetName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{insertBy,jdbcType=VARCHAR},
+      #{userPetName,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{insertBy,jdbcType=VARCHAR},
       #{insertTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.AppUserInfo">
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.vo.AppUserInfoVO">
     update mg_app_user_info
     set user_mobile = #{userMobile,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
       user_pet_name = #{userPetName,jdbcType=VARCHAR},
       user_email = #{userEmail,jdbcType=VARCHAR},
+      status = #{userEmail,jdbcType=INTEGER},
       insert_by = #{insertBy,jdbcType=VARCHAR},
       insert_time = #{insertTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select user_id, user_mobile, user_password, user_pet_name, user_email, insert_by, 
+    select user_id, user_mobile, user_password, user_pet_name, user_email, status, insert_by,
     insert_time
     from mg_app_user_info
     where user_id = #{userId,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select user_id, user_mobile, user_password, user_pet_name, user_email, insert_by, 
+    select user_id, user_mobile, user_password, user_pet_name, user_email,status, insert_by,
     insert_time
     from mg_app_user_info
   </select>
     <select id="selectByInfo" parameterType="com.example.mgdoll.vo.AppUserInfoVO" resultMap="BaseResultMap">
-      select user_id, user_mobile, user_password, user_pet_name, user_email,
+      select user_id, user_mobile, user_password, user_pet_name, user_email,status,
              insert_by, insert_time
       from mg_app_user_info
       where user_mobile = #{userMobile,jdbcType=VARCHAR}
@@ -59,5 +67,31 @@
   <select id="selectExistUserByMobile" resultType="java.lang.Integer">
     select count(user_id) from mg_app_user_info
     where user_mobile = #{userMobile,jdbcType=VARCHAR}
+  </select>
+  <select id="queryBySearchCondition" parameterType="com.example.mgdoll.vo.UserSearchVO" resultMap="ResResultMap">
+    select t.user_id,t.user_pet_name,t.user_mobile,t.user_email,f.balance,f.point,t.insert_time,t.status,
+    (select count(l.log_id) from user_login_log l where l.login_name=t.user_mobile) as login_num,
+    (select g.login_time from user_login_log g where g.log_id=(select MAX(l.log_id) from user_login_log l where l.login_name=t.user_mobile)) as last_login_time
+    from mg_app_user_info t
+    left join app_user_finance f on f.app_user=t.user_id
+    where 1=1
+    <if test="phone != '' and phone != null">
+        and t.user_mobile = #{phone,jdbcType=VARCHAR}
+    </if>
+    <if test="petName != '' and petName != null">
+        and t.user_pet_name like #{petName,jdbcType=VARCHAR}
+    </if>
+    <if test="email != '' and email != null">
+        and t.user_email like #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+        and t.status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="startDate != null">
+        and t.insert_time &gt;= #{startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endDate != null">
+        and t.insert_time &lt;= #{endDate,jdbcType=TIMESTAMP}
+    </if>
   </select>
 </mapper>

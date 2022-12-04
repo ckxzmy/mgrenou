@@ -45,4 +45,9 @@
     from account_token
     where phone = #{phone} and token = #{token}
   </select>
+  <update id="updateTokenTest">
+    update account_token
+    set insert_time = #{date}
+    where phone = #{phone}
+  </update>
 </mapper>

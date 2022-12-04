@@ -44,6 +44,7 @@ public class WaterMarkController {
             if(waterMark != null){
                 waterMark.setStatus(CommonConf.WATER_STATUS.pending.getValue());//-1.删除 0.正常 1.审核中(待审) 2.审核不通过
                 waterMark.setCreateTime(new Date());
+                waterMark.setUserId(userId);
                 waterMarkService.insert(waterMark);
                 apiResponse = ApiResponseUtil.getApiResponse(waterMark);
             }else apiResponse = ApiResponseUtil.getApiResponse(-1,"数据为空！");
@@ -136,7 +137,9 @@ public class WaterMarkController {
             accountTokenService.updateToken(request);
             apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
             final String token = request.getHeader("access_token");
+            String userId = JwtUtil.getUserId(token);
             if(waterMark != null){
+                waterMark.setUserId(userId);
                 MgWaterMark entity = waterMarkService.updateStatus(waterMark);
                 if(entity != null){
                     apiResponse = ApiResponseUtil.getApiResponse(entity);
