@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mgdoll.mapper.AppUserRechargeMapper">
+  <resultMap id="BaseResultMap" type="com.example.mgdoll.model.AppUserRecharge">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="finance_id" jdbcType="INTEGER" property="financeId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_user_recharge_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.mgdoll.model.AppUserRecharge" useGeneratedKeys="true" keyProperty="id">
+    insert into app_user_recharge_log (id, finance_id, amount, 
+      update_time, update_by)
+    values (#{id,jdbcType=INTEGER}, #{financeId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mgdoll.model.AppUserRecharge">
+    update app_user_recharge_log
+    set finance_id = #{financeId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, finance_id, amount, update_time, update_by
+    from app_user_recharge_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, finance_id, amount, update_time, update_by
+    from app_user_recharge_log
+  </select>
+</mapper>
