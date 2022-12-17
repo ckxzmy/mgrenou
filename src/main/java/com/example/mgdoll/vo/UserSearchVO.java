@@ -11,6 +11,8 @@ public class UserSearchVO {
     private String endDateStr;
     private String email;
     private Integer status;
+    private Integer pageNum;
+    private Integer PageSize;
 
     public String getPhone() {
         return phone;
@@ -74,5 +76,21 @@ public class UserSearchVO {
 
     public void setEndDateStr(String endDateStr) {
         this.endDateStr = endDateStr;
+    }
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return PageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        PageSize = pageSize;
     }
 }

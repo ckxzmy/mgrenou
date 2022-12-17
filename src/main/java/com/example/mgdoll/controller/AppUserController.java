@@ -11,6 +11,8 @@ import com.example.mgdoll.util.JwtUtil;
 import com.example.mgdoll.vo.AppUserInfoVO;
 import com.example.mgdoll.vo.RechargeVO;
 import com.example.mgdoll.vo.UserSearchVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -336,6 +338,7 @@ public class AppUserController {
     public ApiResponse searchAppUser(@RequestBody UserSearchVO userSearchVO, HttpServletRequest request){
         ApiResponse apiResponse = new ApiResponse();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        PageHelper.startPage(userSearchVO.getPageNum(),userSearchVO.getPageSize());
         try {
             accountTokenService.updateToken(request);
             if(userSearchVO != null){
@@ -349,7 +352,8 @@ public class AppUserController {
                     userSearchVO.setEndDate(sdf.parse(userSearchVO.getEndDateStr()));
                 }
                 List<AppUserInfo> appUserList = appUserInfoService.queryBySearchCondition(userSearchVO);
-                apiResponse = ApiResponseUtil.getApiResponse(appUserList);
+                PageInfo<AppUserInfo> p = new PageInfo<>(appUserList);
+                apiResponse = ApiResponseUtil.getApiResponse(p);
             }
         } catch (Exception e) {
             e.printStackTrace();

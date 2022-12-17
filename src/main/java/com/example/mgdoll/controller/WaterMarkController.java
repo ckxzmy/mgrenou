@@ -8,6 +8,8 @@ import com.example.mgdoll.service.AccountTokenService;
 import com.example.mgdoll.service.WaterMarkService;
 import com.example.mgdoll.util.ApiResponseUtil;
 import com.example.mgdoll.util.JwtUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -112,16 +114,19 @@ public class WaterMarkController {
     @CrossOrigin
     @ApiOperation(value = "后端查询水印列表")
     @ApiImplicitParam(name = "status", value = "-1.删除 0.正常 1.审核中(待审) 2.审核不通过", required = true, dataType = "int")
-    public ApiResponse queryWaterList(HttpServletRequest request,@RequestParam Integer status){
+    public ApiResponse queryWaterList(HttpServletRequest request,@RequestParam Integer status,@RequestParam Integer pageNum,@RequestParam Integer pageSize){
         ApiResponse apiResponse = new ApiResponse();
         try {
+            PageHelper.startPage(pageNum,pageSize);
             accountTokenService.updateToken(request);
             apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.SUCCESS);
 //            final String token = request.getHeader("access_token");
             List<MgWaterMark> list = waterMarkService.queryWaterListByStatus(status);
-            apiResponse = ApiResponseUtil.getApiResponse(list);
+            PageInfo<MgWaterMark> p = new PageInfo<>(list);
+            apiResponse = ApiResponseUtil.getApiResponse(p);
         } catch (Exception e) {
             e.printStackTrace();
+            apiResponse = ApiResponseUtil.getApiResponse(-1,"查询错误");
         }
 
         return apiResponse;
@@ -139,7 +144,7 @@ public class WaterMarkController {
             final String token = request.getHeader("access_token");
             String userId = JwtUtil.getUserId(token);
             if(waterMark != null){
-                waterMark.setUserId(userId);
+//                waterMark.setUserId(userId);
                 MgWaterMark entity = waterMarkService.updateStatus(waterMark);
                 if(entity != null){
                     apiResponse = ApiResponseUtil.getApiResponse(entity);
